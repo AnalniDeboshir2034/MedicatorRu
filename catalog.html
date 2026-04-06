@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7company - Каталог</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/catalog.css">
+    <script src="js/catalog.js" defer></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="index.html" class="logo">
+                    <span class="logo__text">7 company</span>
+                </a>
+                <nav class="nav">
+                    <ul class="nav__list">
+                        <li class="nav__item">
+                            <a href="index.html" class="nav__link">Главная</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="catalog.html" class="nav__link nav__link--active">Каталог</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="contacts.html" class="nav__link">Контакты</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Hero секция каталога -->
+        <section class="catalog-hero">
+            <div class="container">
+                <div class="catalog-hero__content">
+                    <h1 class="catalog-hero__title">ПРОДУКЦИЯ</h1>
+                    <p class="catalog-hero__subtitle">Каталог медикаторов-дозаторов для сельского хозяйства</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Категории -->
+        <section class="catalog-categories">
+            <div class="container">
+                <div class="catalog-categories__list">
+                    <button class="category-btn active" data-category="all">Все</button>
+                    <button class="category-btn" data-category="masterpro">Master Pro</button>
+                    <button class="category-btn" data-category="dosatron">Dosatron</button>
+                    <button class="category-btn" data-category="mixrite">MixRite</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Фильтры и товары -->
+        <section class="catalog-main">
+            <div class="container">
+                <div class="catalog-grid">
+                    <!-- Фильтры -->
+                    <aside class="catalog-filters">
+                        <div class="filter-group">
+                            <button class="filter-dropdown" data-filter="masterpro">
+                                Master Pro
+                                <span class="filter-arrow">▼</span>
+                            </button>
+                            <div class="filter-submenu" data-submenu="masterpro">
+                                <label><input type="checkbox" value="mp200" data-category="masterpro"> Master Pro MP-200</label>
+                                <label><input type="checkbox" value="mp500" data-category="masterpro"> Master Pro MP-500</label>
+                                <label><input type="checkbox" value="mp100u" data-category="masterpro"> Master Pro MP-100U</label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <button class="filter-dropdown" data-filter="dosatron">
+                                Dosatron
+                                <span class="filter-arrow">▼</span>
+                            </button>
+                            <div class="filter-submenu" data-submenu="dosatron">
+                                <label><input type="checkbox" value="d25" data-category="dosatron"> Dosatron D25RE2</label>
+                                <label><input type="checkbox" value="d3" data-category="dosatron"> Dosatron D3RE10</label>
+                                <label><input type="checkbox" value="d8" data-category="dosatron"> Dosatron D8RE2</label>
+                            </div>
+                        </div>
+
+                        <div class="filter-group">
+                            <button class="filter-dropdown" data-filter="mixrite">
+                                MixRite
+                                <span class="filter-arrow">▼</span>
+                            </button>
+                            <div class="filter-submenu" data-submenu="mixrite">
+                                <label><input type="checkbox" value="mr25" data-category="mixrite"> MixRite 2.5</label>
+                                <label><input type="checkbox" value="mr5" data-category="mixrite"> MixRite 5.0</label>
+                                <label><input type="checkbox" value="mr10" data-category="mixrite"> MixRite 10.0</label>
+                            </div>
+                        </div>
+
+                        <button class="filter-reset" id="reset-filters">Сбросить фильтры</button>
+                    </aside>
+
+                    <!-- Товары -->
+                    <div class="catalog-products">
+                        <div class="products-header">
+                            <span class="products-count" id="products-count">Найдено: 9 товаров</span>
+                        </div>
+
+                        <div class="products-grid" id="products-grid">
+                            <div class="product-card" data-category="masterpro" data-subcategory="mp200">
+                                <div class="product-card__content">
+                                    <h3 class="product-title">Master Pro MP-200</h3>
+                                    <p class="product-desc">Высокопроизводительный медикатор для промышленного птицеводства. Точность дозирования ±2%.</p>
+                                    <a href="#" class="product-btn">Подробнее →</a>
+                                </div>
+                            </div>
+
+                            <div class="product-card" data-category="masterpro" data-subcategory="mp500">
+                                <div class="product-card__content">
+                                    <h3 class="product-title">Master Pro MP-500</h3>
+                                    <p class="product-desc">Медикатор повышенной мощности для крупных свиноводческих комплексов.</p>
+                                    <a href="#" class="product-btn">Подробнее →</a>
+                                </div>
+                            </div>
+
+                            <div class="product-card" data-category="masterpro" data-subcategory="mp100u">
+                                <div class="product-card__content">
+                                    <h3 class="product-title">Master Pro MP-100U</h3>
+                                    <p class="product-desc">Компактный универсальный медикатор для небольших хозяйств.</p>
+                                    <a href="#" class="product-btn">Подробнее →</a>
+                                </div>
+                            </div>
+
+                            <div class="product-card" data-category="dosatron" data-subcategory="d25">
+                                <div class="product-card__content">
+                                    <h3 class="product-title">Dosatron D25RE2</h3>
+                                    <p class="product-desc">Дозатор с диапазоном 0.2–2% для систем водоснабжения средней мощности.</p>
+                                    <a href="#" class="product-btn">Подробнее →</a>
+                                </div>
+                            </div>
+
+                            <div class="product-card" data-category="dosatron" data-subcategory="d3">
+                                <div class="product-card__content">
+                                    <h3 class="product-title">Dosatron D3RE10</h3>
+                                    <p class="product-desc">Компактный французский дозатор для малых ферм и теплиц.</p>
+                                    <a href="#" class="product-btn">Подробнее →</a>
+                                </div>
+                            </div>
+
+                            <div class="product-card" data-category="dosatron" data-subcategory="d8">
+                                <div class="product-card__content">
+                                    <h3 class="product-title">Dosatron D8RE2</h3>
+                                    <p class="product-desc">Промышленный дозатор Dosatron D8RE2 для крупных систем.</p>
+                                    <a href="#" class="product-btn">Подробнее →</a>
+                                </div>
+                            </div>
+
+                            <div class="product-card" data-category="mixrite" data-subcategory="mr25">
+                                <div class="product-card__content">
+                                    <h3 class="product-title">MixRite 2.5</h3>
+                                    <p class="product-desc">Израильский медикатор для интенсивного животноводства.</p>
+                                    <a href="#" class="product-btn">Подробнее →</a>
+                                </div>
+                            </div>
+
+                            <div class="product-card" data-category="mixrite" data-subcategory="mr5">
+                                <div class="product-card__content">
+                                    <h3 class="product-title">MixRite 5.0</h3>
+                                    <p class="product-desc">Профессиональный дозатор для крупных хозяйств.</p>
+                                    <a href="#" class="product-btn">Подробнее →</a>
+                                </div>
+                            </div>
+
+                            <div class="product-card" data-category="mixrite" data-subcategory="mr10">
+                                <div class="product-card__content">
+                                    <h3 class="product-title">MixRite 10.0</h3>
+                                    <p class="product-desc">Мощный медикатор для промышленного использования.</p>
+                                    <a href="#" class="product-btn">Подробнее →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__col">
+                    <a href="index.html" class="footer-logo">7company</a>
+                    <p class="footer__text">Профессиональные медикаторы-дозаторы</p>
+                </div>
+                <div class="footer__col">
+                    <h3 class="footer__title">Контакты</h3>
+                    <ul class="footer__list">
+                        <li>📞 +375 (29) 605-22-73</li>
+                        <li>✉️ info@7company.by</li>
+                        <li>📍 г. Минск, ул. Пушкина, д. Колотушкина</li>
+                    </ul>
+                </div>
+                <div class="footer__col">
+                    <h3 class="footer__title">Навигация</h3>
+                    <ul class="footer__list">
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="catalog.html">Каталог</a></li>
+                        <li><a href="contacts.html">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer__col">
+                    <h3 class="footer__title">Часы работы</h3>
+                    <ul class="footer__list">
+                        <li>Пн-Пт: 9:00-18:00</li>
+                        <li>Сб-Вс: Выходной</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer__bottom">
+                <p>&copy; 2025 7company. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
