@@ -51,6 +51,16 @@ body {
   background-color: #cbd5e1;
 }
 
+.btn-compare.is-active {
+  background-color: #f97316;
+  color: #ffffff;
+}
+
+[data-cart-add].is-in-cart {
+  background-color: #16a34a;
+  color: #ffffff;
+}
+
 .btn-large {
   padding: 14px 32px;
   font-size: 16px;
@@ -111,6 +121,105 @@ body {
 .nav__link:hover,
 .nav__link--active {
   color: #f97316;
+}
+
+.header-lead-open {
+  margin-left: 16px;
+}
+
+.header-lead-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.header-lead-modal.is-active {
+  display: flex;
+}
+
+.header-lead-modal__dialog {
+  width: 100%;
+  max-width: 460px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2);
+}
+
+.header-lead-modal__close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.header-lead-modal__title {
+  font-size: 28px;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  color: #1e293b;
+}
+
+.header-lead-modal__subtitle {
+  color: #64748b;
+  margin-bottom: 18px;
+}
+
+.header-lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.header-lead-form input,
+.header-lead-form textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font: inherit;
+  color: #1e293b;
+}
+
+.header-lead-form textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.header-lead-form input:focus,
+.header-lead-form textarea:focus {
+  outline: none;
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+
+.header-lead-form__submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.header-lead-form__status {
+  margin-top: 12px;
+  min-height: 20px;
+  font-size: 14px;
+}
+
+.header-lead-form__status.is-success {
+  color: #16a34a;
+}
+
+.header-lead-form__status.is-error {
+  color: #dc2626;
 }
 
 /* ===== Заголовки секций (общие) ===== */
@@ -362,6 +471,10 @@ body {
   
   .nav__list {
     gap: 20px;
+  }
+
+  .header-lead-open {
+    margin-left: 0;
   }
   
   .section-title {

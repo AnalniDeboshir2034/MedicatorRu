@@ -72,8 +72,116 @@
                         <li class="nav__item">
                             <a href="contacts.php" class="nav__link">Контакты</a>
                         </li>
+                        <li class="nav__item">
+                            <a href="compare.php" class="nav__link">
+                                Сравнение (<span data-compare-count>0</span>)
+                            </a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="cart.php" class="nav__link">
+                                Корзина (<span data-cart-count>0</span>)
+                            </a>
+                        </li>
                     </ul>
                 </nav>
+
+                <button type="button" class="btn btn-primary header-lead-open" data-lead-open>
+                    Оставить заявку
+                </button>
             </div>
         </div>
     </header>
+
+    <div class="header-lead-modal" id="headerLeadModal" aria-hidden="true">
+        <div class="header-lead-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="headerLeadTitle">
+            <button type="button" class="header-lead-modal__close" data-lead-close aria-label="Закрыть форму">&times;</button>
+            <h3 class="header-lead-modal__title" id="headerLeadTitle">Оставить заявку</h3>
+            <p class="header-lead-modal__subtitle">Оставьте контакты, и мы свяжемся с вами.</p>
+
+            <form id="headerLeadForm" class="header-lead-form">
+                <input type="text" name="name" placeholder="Ваше имя" required>
+                <input type="tel" name="phone" placeholder="Ваш телефон" required>
+                <textarea name="message" rows="4" placeholder="Сообщение (необязательно)"></textarea>
+                <input type="hidden" name="form_type" value="Модальная форма в хедере">
+                <button type="submit" class="btn btn-primary header-lead-form__submit">Отправить</button>
+            </form>
+
+            <p id="headerLeadStatus" class="header-lead-form__status" aria-live="polite"></p>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        var modal = document.getElementById('headerLeadModal');
+        var openBtn = document.querySelector('[data-lead-open]');
+        var closeBtn = document.querySelector('[data-lead-close]');
+        var form = document.getElementById('headerLeadForm');
+        var status = document.getElementById('headerLeadStatus');
+
+        if (!modal || !openBtn || !closeBtn || !form || !status) {
+            return;
+        }
+
+        function openModal() {
+            modal.classList.add('is-active');
+            modal.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeModal() {
+            modal.classList.remove('is-active');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+
+        function setStatus(message, isError) {
+            status.textContent = message;
+            status.classList.toggle('is-error', !!isError);
+            status.classList.toggle('is-success', !isError);
+        }
+
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', function (event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && modal.classList.contains('is-active')) {
+                closeModal();
+            }
+        });
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            setStatus('Отправляем заявку...', false);
+
+            var submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+
+            fetch('includes/bitrix_form.php', {
+                method: 'POST',
+                body: new FormData(form)
+            })
+            .then(function (response) { return response.json(); })
+            .then(function (data) {
+                if (data && data.success) {
+                    setStatus(data.message || 'Заявка отправлена! Мы свяжемся с вами.', false);
+                    form.reset();
+                    setTimeout(closeModal, 1200);
+                } else {
+                    setStatus((data && data.message) || 'Ошибка отправки. Попробуйте позже.', true);
+                }
+            })
+            .catch(function () {
+                setStatus('Ошибка сети. Проверьте подключение и попробуйте снова.', true);
+            })
+            .finally(function () {
+                submitBtn.disabled = false;
+            });
+        });
+    })();
+    </script>
+    <script src="js/compare-storage.js" defer></script>
+    <script src="js/cart-storage.js" defer></script>

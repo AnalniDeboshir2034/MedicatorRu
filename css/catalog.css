@@ -283,6 +283,25 @@
     color: #ea580c;
 }
 
+.product-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+}
+
+.product-btn--compare::after {
+    content: "";
+}
+
+.product-btn--compare.is-active {
+    color: #16a34a;
+}
+
+.product-btn--cart.is-in-cart {
+    color: #16a34a;
+}
+
 /* Скрытие товаров при фильтрации */
 .product-card.hidden {
     display: none;

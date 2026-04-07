@@ -310,7 +310,20 @@ if (empty($popular_products)) {
                                 <?= htmlspecialchars($product['filtr'] ?? 'Серия медикатора') ?>
                             </p>
                             <div class="product-card__actions">
-                                <button class="btn btn-secondary btn-compare">В сравнение</button>
+                                <button
+                                    class="btn btn-secondary btn-compare"
+                                    data-compare-id="<?= (int)$product['id'] ?>"
+                                >
+                                    В сравнение
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary btn-cart"
+                                    data-cart-add
+                                    data-cart-id="<?= (int)$product['id'] ?>"
+                                >
+                                    В корзину
+                                </button>
                                 <a href="product.php?slug=<?= urlencode($product['slug']) ?>" class="btn btn-primary">Подробнее</a>
                             </div>
                         </div>
@@ -326,7 +339,7 @@ if (empty($popular_products)) {
                         <h3 class="product-card__title">Медикатор Master Pro 2000</h3>
                         <p class="product-card__desc">Master Pro</p>
                         <div class="product-card__actions">
-                            <button class="btn btn-secondary btn-compare">В сравнение</button>
+                            <button class="btn btn-secondary btn-compare" type="button" disabled>В сравнение</button>
                             <a href="#" class="btn btn-primary">Подробнее</a>
                         </div>
                     </div>
@@ -340,7 +353,7 @@ if (empty($popular_products)) {
                         <h3 class="product-card__title">Dosatron D25RE2</h3>
                         <p class="product-card__desc">Dosatron</p>
                         <div class="product-card__actions">
-                            <button class="btn btn-secondary btn-compare">В сравнение</button>
+                            <button class="btn btn-secondary btn-compare" type="button" disabled>В сравнение</button>
                             <a href="#" class="btn btn-primary">Подробнее</a>
                         </div>
                     </div>
@@ -354,7 +367,7 @@ if (empty($popular_products)) {
                         <h3 class="product-card__title">MixRite TEFEN</h3>
                         <p class="product-card__desc">MixRite</p>
                         <div class="product-card__actions">
-                            <button class="btn btn-secondary btn-compare">В сравнение</button>
+                            <button class="btn btn-secondary btn-compare" type="button" disabled>В сравнение</button>
                             <a href="#" class="btn btn-primary">Подробнее</a>
                         </div>
                     </div>

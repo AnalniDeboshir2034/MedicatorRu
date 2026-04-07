@@ -157,8 +157,25 @@ $mysqli->close();
                                             <span class="spec">Давление: <?= htmlspecialchars($product['pressure']) ?></span>
                                             <?php endif; ?>
                                         </div>
-                                        
-                                        <a href="product.php?slug=<?= urlencode($product['slug']) ?>" class="product-btn">Подробнее →</a>
+
+                                        <div class="product-actions">
+                                            <button
+                                                type="button"
+                                                class="product-btn product-btn--compare"
+                                                data-compare-id="<?= (int)$product['id'] ?>"
+                                            >
+                                                В сравнение
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="product-btn product-btn--cart"
+                                                data-cart-add
+                                                data-cart-id="<?= (int)$product['id'] ?>"
+                                            >
+                                                В корзину
+                                            </button>
+                                            <a href="product.php?slug=<?= urlencode($product['slug']) ?>" class="product-btn">Подробнее →</a>
+                                        </div>
                                     </div>
                                 </div>
                                 <?php endforeach; ?>

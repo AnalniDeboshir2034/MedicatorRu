@@ -41,31 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // ===== Кнопки "В сравнение" =====
-    const compareBtns = document.querySelectorAll('.btn-compare');
-    
-    compareBtns.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Меняем текст и стиль кнопки
-            const originalText = this.textContent;
-            this.textContent = '✓ Добавлено';
-            this.style.backgroundColor = '#22c55e';
-            this.style.color = 'white';
-            
-            // Через 2 секунды возвращаем обратно
-            setTimeout(() => {
-                this.textContent = originalText;
-                this.style.backgroundColor = '';
-                this.style.color = '';
-            }, 2000);
-            
-            // Можно добавить логику сравнения
-            console.log('Товар добавлен в сравнение');
-        });
-    });
-    
     // ===== Плавная прокрутка для якорных ссылок =====
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -106,20 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
-    
-    // ===== Счетчик для сравнения товаров (пример) =====
-    let compareCount = 0;
-    
-    function updateCompareCount() {
-        const compareIcon = document.querySelector('.compare-icon');
-        if (compareIcon) {
-            if (compareCount > 0) {
-                compareIcon.textContent = `⚖️ ${compareCount}`;
-            } else {
-                compareIcon.textContent = '⚖️';
-            }
-        }
-    }
     
     // ===== Адаптивное меню для мобилок (если нужно) =====
     const createMobileMenu = () => {
