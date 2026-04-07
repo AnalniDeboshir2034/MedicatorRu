@@ -1,27 +1,27 @@
 /* ===== Общие стили каталога ===== */
 .catalog-hero {
     padding: 40px 0 30px;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-surface) 100%);
     text-align: center;
 }
 
 .catalog-hero__title {
     font-size: 36px;
     font-weight: 800;
-    color: #1e293b;
+    color: var(--color-text);
     margin-bottom: 12px;
 }
 
 .catalog-hero__subtitle {
     font-size: 16px;
-    color: #64748b;
+    color: var(--color-text-muted);
 }
 
 /* ===== Категории ===== */
 .catalog-categories {
     padding: 16px 0;
-    background: white;
-    border-bottom: 1px solid #e2e8f0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .catalog-categories__list {
@@ -36,7 +36,7 @@
     border: none;
     font-size: 15px;
     font-weight: 600;
-    color: #64748b;
+    color: var(--color-text-muted);
     cursor: pointer;
     padding: 6px 0;
     transition: all 0.3s;
@@ -44,14 +44,14 @@
 
 .category-btn:hover,
 .category-btn.active {
-    color: #f97316;
-    border-bottom: 2px solid #f97316;
+    color: var(--color-accent);
+    border-bottom: 2px solid var(--color-accent);
 }
 
 /* ===== Основная сетка ===== */
 .catalog-main {
     padding: 30px 0 60px;
-    background: #f8f9fa;
+    background: var(--color-bg);
 }
 
 .catalog-grid {
@@ -62,16 +62,16 @@
 
 /* ===== Фильтры (сайдбар) ===== */
 .catalog-filters {
-    background: white;
+    background: var(--color-surface);
     border-radius: 16px;
     padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
     height: fit-content;
 }
 
 .filter-group {
     margin-bottom: 16px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--color-border);
     padding-bottom: 12px;
 }
 
@@ -84,7 +84,7 @@
     border: none;
     font-size: 15px;
     font-weight: 700;
-    color: #1e293b;
+    color: var(--color-text);
     cursor: pointer;
     padding: 6px 0;
 }
@@ -141,7 +141,7 @@
 }
 
 .filter-reset:hover {
-    background: #f97316;
+    background: var(--color-accent);
     color: white;
 }
 
@@ -157,7 +157,7 @@
 
 .products-count {
     font-size: 13px;
-    color: #64748b;
+    color: var(--color-text-muted);
 }
 
 .products-grid {
@@ -167,12 +167,12 @@
 }
 
 .product-card {
-    background: white;
+    background: var(--color-surface);
     border-radius: 14px;
     overflow: hidden;
     transition: all 0.25s;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-    border: 1px solid #e2e8f0;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -215,7 +215,7 @@
 .product-title {
     font-size: 16px;
     font-weight: 700;
-    color: #1e293b;
+    color: var(--color-text);
     margin-bottom: 8px;
     height: 40px;
     line-height: 1.3;
@@ -226,7 +226,7 @@
 /* Описание - фиксированная высота */
 .product-desc {
     font-size: 12px;
-    color: #64748b;
+    color: var(--color-text-muted);
     line-height: 1.4;
     margin-bottom: 10px;
     height: 48px;
@@ -261,7 +261,7 @@
     padding: 6px 0;
     background: none;
     border: none;
-    color: #f97316;
+    color: var(--color-accent);
     font-weight: 600;
     font-size: 12px;
     text-decoration: none;
@@ -280,7 +280,7 @@
 }
 
 .product-btn:hover {
-    color: #ea580c;
+    color: var(--color-accent-strong);
 }
 
 .product-actions {

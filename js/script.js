@@ -26,22 +26,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // ===== Анимация изменения цвета у блоков "Как мы работаем" =====
     const stepCards = document.querySelectorAll('.step-card');
     
     stepCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
-            // Добавляем плавную анимацию
             this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
         });
         
         card.addEventListener('mouseleave', function() {
-            // Возвращаем исходное состояние
             this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
         });
     });
     
-    // ===== Плавная прокрутка для якорных ссылок =====
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
@@ -58,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // ===== Анимация появления элементов при скролле =====
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -74,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
     
-    // Добавляем анимацию для карточек
     document.querySelectorAll('.category-card, .advantage-card, .product-card, .step-card, .review-card').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
@@ -82,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
     
-    // ===== Адаптивное меню для мобилок (если нужно) =====
     const createMobileMenu = () => {
         if (window.innerWidth <= 768) {
             const nav = document.querySelector('.nav');
@@ -128,9 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('Сайт готов! Все анимации работают');
 });
-// Добавь в существующий script.js
 
-// Анимация для карточек преимуществ при появлении
 const advantageObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
@@ -173,7 +164,6 @@ document.head.appendChild(style);
 
 document.querySelectorAll('.step-card__icon img').forEach(img => {
     img.addEventListener('error', function() {
-        // Если картинка не загрузилась, показываем эмодзи
         const fallback = document.createElement('span');
         fallback.className = 'emoji-icon';
         
@@ -185,7 +175,6 @@ document.querySelectorAll('.step-card__icon img').forEach(img => {
         this.style.display = 'none';
     });
 });
-// Обработка формы "Рассчитаем стоимость"
 
 
 const modal = document.getElementById('notification-modal');
@@ -202,7 +191,6 @@ modal?.addEventListener('click', function(e) {
     if (e.target === this) closeModal();
 });
 
-// Swiper инициализация
 if (typeof Swiper !== 'undefined') {
     new Swiper('.reviews-swiper', {
         slidesPerView: 1,

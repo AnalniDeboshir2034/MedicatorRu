@@ -53,12 +53,16 @@
         </div>
     </div>
 </header> -->
+<?php
+require_once __DIR__ . '/site_settings.php';
+$siteSettings = $siteSettings ?? load_site_settings();
+?>
  <header class="header">
         <div class="container">
             <div class="header__inner">
                 <a href="index.php" class="logo">
                     
-                    <span class="logo__text">7 company</span>
+                    <span class="logo__text"><?= htmlspecialchars($siteSettings['header']['brand_name']) ?></span>
                 </a>
 
                 <nav class="nav">
@@ -82,11 +86,14 @@
                                 Корзина (<span data-cart-count>0</span>)
                             </a>
                         </li>
+                        <li class="nav__item">
+                            <a href="admin/index.php" class="nav__link">Админка</a>
+                        </li>
                     </ul>
                 </nav>
 
                 <button type="button" class="btn btn-primary header-lead-open" data-lead-open>
-                    Оставить заявку
+                    <?= htmlspecialchars($siteSettings['header']['lead_button_text']) ?>
                 </button>
             </div>
         </div>

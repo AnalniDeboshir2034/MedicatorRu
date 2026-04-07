@@ -1,5 +1,7 @@
 <?php 
 require_once 'includes/config.php';
+require_once 'includes/site_settings.php';
+$siteSettings = load_site_settings();
 
 if (!$mysqli || $mysqli->connect_error) {
     die("❌ Нет соединения с БД");
@@ -126,12 +128,11 @@ if (empty($popular_products)) {
         <div class="hero-products__wrapper">
             <div class="hero-products__content">
                 <h1 class="hero-products__title">
-                    МЕДИКАТОРЫ <br>
-                   <span class="gradient-text">ДЛЯ ХОЗЯЙСТВ</span>
+                    <?= htmlspecialchars($siteSettings['index']['hero_title_top']) ?> <br>
+                   <span class="gradient-text"><?= htmlspecialchars($siteSettings['index']['hero_title_bottom']) ?></span>
                 </h1>
                 <p class="hero-products__text">
-                    Точное дозирование препаратов и добавок в систему водоснабжения. 
-                    <strong>Надёжные решения</strong> для птицеводства, свиноводства и животноводства.
+                    <?= htmlspecialchars($siteSettings['index']['hero_text']) ?>
                 </p>
                 <div class="hero-products__buttons">
                     <a href="#" class="btn btn-primary btn-order open-modal-form" data-form="hero">ОСТАВИТЬ ЗАЯВКУ</a>
@@ -272,7 +273,7 @@ if (empty($popular_products)) {
         <div class="calc-card">
             <div class="calc-content">
              <h2 class="calc-title">
-                РАССЧИТАЕМ СТОИМОСТЬ <br><span class="gradient-text">ПОД ВАШ ЗАПРОС</span>
+                <?= htmlspecialchars($siteSettings['containers']['index_cta_title']) ?> <br><span class="gradient-text"><?= htmlspecialchars($siteSettings['containers']['index_cta_subtitle']) ?></span>
             </h2>
                 <p class="calc-text">
                     Оставьте заявку — подберём оптимальную модель медикатора для вашего хозяйства и рассчитаем коммерческое предложение.
@@ -455,15 +456,15 @@ if (empty($popular_products)) {
                 <ul class="contact-details">
                     <li>
                         <span class="contact-icon">📞</span>
-                        <span>+7 (800) 123-45-67</span>
+                        <span><?= htmlspecialchars($siteSettings['contacts']['phone']) ?></span>
                     </li>
                     <li>
                         <span class="contact-icon">📧</span>
-                        <span>info@medicator.ru</span>
+                        <span><?= htmlspecialchars($siteSettings['contacts']['email']) ?></span>
                     </li>
                     <li>
                         <span class="contact-icon">📍</span>
-                        <span>г. Москва, ул. Примерная, 1</span>
+                        <span><?= htmlspecialchars($siteSettings['contacts']['address']) ?></span>
                     </li>
                 </ul>
             </div>

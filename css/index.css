@@ -1,6 +1,6 @@
 .hero-products {
   padding: 60px 0;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-surface) 100%);
   min-height: 550px;
   display: flex;
   align-items: center;
@@ -21,12 +21,12 @@
   font-size: 52px;
   font-weight: 800;
   line-height: 1.2;
-  color: #1e293b;
+  color: var(--color-text);
   margin-bottom: 24px;
 }
 
 .hero-products__title span {
-  background: linear-gradient(135deg, #F45B2C, #FD9474);
+  background: var(--gradient-accent);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -35,12 +35,12 @@
 .hero-products__text {
   font-size: 18px;
   line-height: 1.6;
-  color: #64748b;
+  color: var(--color-text-muted);
   margin-bottom: 32px;
 }
 
 .hero-products__text strong {
-  color: linear-gradient(135deg, #F45B2C, #FD9474);
+  color: var(--color-accent-strong);
   font-weight: 700;
 }
 
@@ -59,7 +59,7 @@
   display: block;
   font-size: 32px;
   font-weight: 800;
-  color: linear-gradient(135deg, #F45B2C, #FD9474);;
+  color: var(--color-accent);
   line-height: 1.2;
 }
 
@@ -75,7 +75,7 @@
 }
 
 .btn-order {
-  background: linear-gradient(135deg, #F45B2C, #FD9474);
+  background: var(--gradient-accent);
   color: white;
   padding: 14px 32px;
   border-radius: 40px;
@@ -92,18 +92,18 @@
 
 .btn-outline {
   background: transparent;
-  color: #f97316;
+  color: var(--color-accent);
   padding: 14px 32px;
   border-radius: 40px;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.3s;
   display: inline-block;
-  border: 2px solid #f97316;
+  border: 2px solid var(--color-accent);
 }
 
 .btn-outline:hover {
-  background: #f97316;
+  background: var(--color-accent);
   color: white;
   transform: translateY(-2px);
 }
@@ -122,7 +122,7 @@
 /* ===== Категории ===== */
 .categories {
   padding: 80px 0;
-  background-color: #ffffff;
+  background-color: var(--color-surface);
 }
 
 .categories__grid {
@@ -187,7 +187,7 @@
 /* ===== Преимущества ===== */
 .advantages {
   padding: 80px 0;
-  background-color: #f8f9fa;
+  background-color: var(--color-bg);
 }
 
 .advantages__grid {
@@ -251,7 +251,7 @@
 /* ===== Как мы работаем ===== */
 .how-we-work-steps {
   padding: 80px 0;
-  background-color: #ffffff;
+  background-color: var(--color-surface);
 }
 
 .steps-grid {
@@ -264,17 +264,17 @@
 .step-item {
   text-align: center;
   padding: 30px 20px;
-  background: white;
+  background: var(--color-surface);
   border-radius: 20px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--color-border);
 }
 
 .step-item:hover {
   transform: translateY(-10px) scale(1.03);
-  background: linear-gradient(135deg, #F45B2C, #FD9474);
+  background: var(--gradient-accent);
   box-shadow: 0 20px 35px rgba(249, 115, 22, 0.3);
 }
 
@@ -291,7 +291,7 @@
 .step-icon {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #F45B2C, #FD9474);
+  background: var(--gradient-accent);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -306,14 +306,14 @@
 .step-item__title {
   font-size: 18px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--color-text);
   margin-bottom: 12px;
   transition: color 0.3s;
 }
 
 .step-item__desc {
   font-size: 14px;
-  color: #64748b;
+  color: var(--color-text-muted);
   line-height: 1.5;
   transition: color 0.3s;
 }
@@ -321,7 +321,7 @@
 /* ===== Рассчитаем стоимость (ИСПРАВЛЕНО - тёмные инпуты) ===== */
 .calc-section {
   padding: 80px 0;
-  background-color: #f8f9fa;
+  background-color: var(--color-bg);
 }
 
 .calc-card {
@@ -394,7 +394,7 @@
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
-  background: linear-gradient(135deg, #F45B2C, #FD9474);
+  background: var(--gradient-accent);
   color: white;
   transition: all 0.3s;
   white-space: nowrap;
@@ -518,7 +518,7 @@
   width: 100%;
   padding: 14px;
   font-size: 16px;
-  background: linear-gradient(135deg, #F45B2C, #FD9474);
+  background: var(--gradient-accent);
   color: white;
   border: none;
   border-radius: 12px;
@@ -535,7 +535,7 @@
 /* ===== Секция "Свяжитесь с нами" ===== */
 .contact-section {
   padding: 80px 0;
-  background-color: #f8f9fa;
+  background-color: var(--color-bg);
 }
 
 .contact-wrapper {
@@ -558,7 +558,7 @@
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 24px;
-  background: linear-gradient(135deg, #F45B2C, #FD9474);
+  background: var(--gradient-accent);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -785,10 +785,7 @@
   }
 }
 /* ===== Отзывы со свайпером ===== */
-.reviews {
-    padding: 80px 0;
-    background-color: #f8f9fa;
-}
+/* reviews styles are defined once in style.css */
 
 .reviews-swiper {
     padding: 20px 0 50px;
@@ -848,7 +845,7 @@
 }
 
 .swiper-pagination-bullet-active {
-    background: #f97316;
+    background: var(--color-accent);
 }
  .modal {
             display: none;
@@ -886,7 +883,7 @@
         .modal-title { font-size: 24px; font-weight: 700; margin-bottom: 10px; }
         .modal-message { color: #64748b; margin-bottom: 20px; }
         .modal-btn {
-            background: linear-gradient(135deg, #F45B2C, #FD9474);
+            background: var(--gradient-accent);
             color: white;
             border: none;
             padding: 10px 24px;
@@ -902,7 +899,7 @@
             position: absolute;
             top: 15px;
             left: 15px;
-            background: linear-gradient(135deg, #F45B2C, #FD9474);
+            background: var(--gradient-accent);
             color: white;
             font-size: 12px;
             font-weight: 700;

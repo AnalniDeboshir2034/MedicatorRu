@@ -1,16 +1,20 @@
+<?php
+require_once __DIR__ . '/site_settings.php';
+$siteSettings = $siteSettings ?? load_site_settings();
+?>
 <footer class="footer">
         <div class="container">
             <div class="footer__content">
                 <div class="footer__col">
-                    <a href="index.php" class="footer-logo">7company</a>
-                    <p class="footer__text">Профессиональные медикаторы-дозаторы</p>
+                    <a href="index.php" class="footer-logo"><?= htmlspecialchars($siteSettings['header']['brand_name']) ?></a>
+                    <p class="footer__text"><?= htmlspecialchars($siteSettings['footer']['company_description']) ?></p>
                 </div>
                 <div class="footer__col">
                     <h3 class="footer__title">Контакты</h3>
                     <ul class="footer__list">
-                        <li>📞 +375 (29) 605-22-73</li>
-                        <li>✉️ info@7company.by</li>
-                        <li>📍 г. Минск, ул. Пушкина, д. Колотушкина</li>
+                        <li>📞 <?= htmlspecialchars($siteSettings['contacts']['phone']) ?></li>
+                        <li>✉️ <?= htmlspecialchars($siteSettings['contacts']['email']) ?></li>
+                        <li>📍 <?= htmlspecialchars($siteSettings['contacts']['address']) ?></li>
                     </ul>
                 </div>
                 <div class="footer__col">
@@ -24,13 +28,13 @@
                 <div class="footer__col">
                     <h3 class="footer__title">Часы работы</h3>
                     <ul class="footer__list">
-                        <li>Пн-Пт: 9:00-18:00</li>
+                        <li><?= htmlspecialchars($siteSettings['contacts']['work_hours']) ?></li>
                         <li>Сб-Вс: Выходной</li>
                     </ul>
                 </div>
             </div>
             <div class="footer__bottom">
-                <p>&copy; 2025 7company. Все права защищены.</p>
+                <p><?= htmlspecialchars($siteSettings['footer']['copyright']) ?></p>
             </div>
         </div>
     </footer>

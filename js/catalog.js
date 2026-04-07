@@ -27,21 +27,18 @@ document.addEventListener('DOMContentLoaded', function() {
             let categoryMatch = false;
             let subcategoryMatch = false;
             
-            // Проверка основной категории
             if (activeCategory === 'all') {
                 categoryMatch = true;
             } else {
                 categoryMatch = (productCategory === activeCategory);
             }
             
-            // Проверка подкатегорий
             if (activeSubcategories.size === 0) {
                 subcategoryMatch = true;
             } else {
                 subcategoryMatch = activeSubcategories.has(productSubcategory);
             }
             
-            // Показываем товар, если совпадают оба условия
             if (categoryMatch && subcategoryMatch) {
                 product.classList.remove('hidden');
             } else {
@@ -55,9 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Обработчики для кнопок основных категорий
     categoryBtns.forEach(btn => {
         btn.addEventListener('click', function() {
-            // Убираем активный класс у всех кнопок
             categoryBtns.forEach(b => b.classList.remove('active'));
-            // Добавляем активный класс текущей кнопке
             this.classList.add('active');
             
             activeCategory = this.dataset.category;

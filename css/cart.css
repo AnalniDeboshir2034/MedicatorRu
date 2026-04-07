@@ -5,7 +5,7 @@
 .cart-title {
     font-size: 38px;
     margin-bottom: 22px;
-    color: #1e293b;
+    color: var(--color-text);
 }
 
 .cart-grid {
@@ -17,8 +17,8 @@
 
 .cart-empty,
 .cart-list {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: 16px;
     padding: 20px;
 }
@@ -34,7 +34,7 @@
     gap: 16px;
     align-items: center;
     padding: 14px 0;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .cart-item:last-child {
@@ -56,13 +56,13 @@
 
 .cart-item__meta {
     font-size: 13px;
-    color: #64748b;
+    color: var(--color-text-muted);
     margin-bottom: 8px;
 }
 
 .cart-item__qty {
     display: inline-flex;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     overflow: hidden;
 }
@@ -90,8 +90,8 @@
 }
 
 .cart-sidebar {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: 16px;
     padding: 16px;
     display: flex;
@@ -102,7 +102,7 @@
 .cart-clear {
     border: none;
     background: transparent;
-    color: #64748b;
+    color: var(--color-text-muted);
     text-decoration: underline;
     cursor: pointer;
     margin-top: 6px;
@@ -126,7 +126,7 @@
 .cart-modal__dialog {
     width: 100%;
     max-width: 460px;
-    background: #ffffff;
+    background: var(--color-surface);
     border-radius: 16px;
     padding: 24px;
     position: relative;
@@ -152,7 +152,7 @@
 .cart-checkout-form input,
 .cart-checkout-form textarea {
     width: 100%;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--color-border);
     border-radius: 10px;
     padding: 11px 12px;
     font: inherit;
@@ -175,5 +175,26 @@
 @media (max-width: 920px) {
     .cart-grid {
         grid-template-columns: 1fr;
+    }
+
+    .cart-sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 640px) {
+    .cart-title {
+        font-size: 30px;
+    }
+
+    .cart-item {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .cart-item__img img {
+        width: 100%;
+        max-width: 120px;
+        height: 120px;
     }
 }

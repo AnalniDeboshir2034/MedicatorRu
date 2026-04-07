@@ -1,11 +1,11 @@
 /* ===== Контакты (карточки с иконками, только контур при наведении) ===== */
 .contacts-info-section {
     padding: 60px 0 40px;
-    background: #f8f9fa;
+    background: var(--color-bg);
 }
 
 .contacts-info-card {
-    background: white;
+    background: var(--color-surface);
     border-radius: 30px;
     padding: 50px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
@@ -14,14 +14,14 @@
 .contacts-info-title {
     font-size: 36px;
     font-weight: 800;
-    color: #1e293b;
+    color: var(--color-text);
     margin-bottom: 12px;
     text-align: center;
 }
 
 .contacts-info-subtitle {
     font-size: 16px;
-    color: #64748b;
+    color: var(--color-text-muted);
     text-align: center;
     margin-bottom: 48px;
 }
@@ -34,18 +34,18 @@
 
 /* Карточка контакта - только контур при наведении */
 .contacts-info-item {
-    background: white;
+    background: var(--color-surface);
     border-radius: 20px;
     padding: 30px 20px;
     text-align: center;
     transition: all 0.3s;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    border: 2px solid #e2e8f0;
+    border: 2px solid var(--color-border);
     cursor: pointer;
 }
 
 .contacts-info-item:hover {
-    border-color: #f97316;
+    border-color: var(--color-accent);
     transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
@@ -67,7 +67,7 @@
 .contacts-info-item__value {
     font-size: 18px;
     font-weight: 700;
-    color: #1e293b;
+    color: var(--color-text);
     margin-bottom: 4px;
 }
 
@@ -79,17 +79,17 @@
 /* ===== Форма связи ===== */
 .contact-form-section {
     padding: 40px 0 80px;
-    background: #f8f9fa;
+    background: var(--color-bg);
 }
 
 .contact-form-card {
     display: flex;
     gap: 50px;
-    background: white;
+    background: var(--color-surface);
     border-radius: 30px;
     padding: 50px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
 }
 
 .contact-form-left {
@@ -103,30 +103,23 @@
     margin-bottom: 20px;
 }
 
-.gradient-text {
-    background: linear-gradient(135deg, #f97316, #ff8c42);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
 .contact-form-text {
     font-size: 15px;
     line-height: 1.6;
-    color: #64748b;
+    color: var(--color-text-muted);
     margin-bottom: 30px;
 }
 
 .contact-form-contacts {
-    background: #f8f9fa;
+    background: var(--color-bg);
     border-radius: 16px;
     padding: 20px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
 }
 
 .contact-form-contacts p {
     margin-bottom: 12px;
-    color: #1e293b;
+    color: var(--color-text);
     font-size: 15px;
 }
 
@@ -140,10 +133,10 @@
 
 .contact-form-fields {
     width: 100%;
-    background: #f8f9fa;
+    background: var(--color-bg);
     border-radius: 20px;
     padding: 30px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
 }
 
 .form-field {
@@ -154,7 +147,7 @@
     display: block;
     font-size: 14px;
     font-weight: 600;
-    color: #1e293b;
+    color: var(--color-text);
     margin-bottom: 8px;
 }
 
@@ -162,19 +155,19 @@
 .form-field textarea {
     width: 100%;
     padding: 14px 18px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
     border-radius: 12px;
     font-size: 15px;
     font-family: inherit;
-    background: white;
-    color: #1e293b;
+    background: var(--color-surface);
+    color: var(--color-text);
     transition: all 0.3s;
 }
 
 .form-field input:focus,
 .form-field textarea:focus {
     outline: none;
-    border-color: #f97316;
+    border-color: var(--color-accent);
     box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
 }
 
@@ -192,7 +185,7 @@
     font-weight: 700;
     font-family: inherit;
     cursor: pointer;
-    background: linear-gradient(135deg, #f97316, #ff8c42);
+    background: var(--gradient-accent);
     color: white;
     transition: all 0.3s;
     margin-top: 10px;
@@ -206,28 +199,28 @@
 /* ===== Условия доставки (только контур при наведении) ===== */
 .delivery-section {
     padding: 80px 0;
-    background-color: #f8f9fa;
+    background-color: var(--color-bg);
 }
 
 .delivery-card {
-    background: white;
+    background: var(--color-surface);
     border-radius: 30px;
     padding: 50px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
 }
 
 .delivery-title {
     font-size: 32px;
     font-weight: 800;
-    color: #1e293b;
+    color: var(--color-text);
     margin-bottom: 12px;
     text-align: center;
 }
 
 .delivery-subtitle {
     font-size: 16px;
-    color: #64748b;
+    color: var(--color-text-muted);
     text-align: center;
     margin-bottom: 48px;
 }
@@ -240,17 +233,17 @@
 
 /* Карточка доставки - только контур при наведении */
 .delivery-item {
-    background: white;
+    background: var(--color-surface);
     border-radius: 20px;
     padding: 28px;
     transition: all 0.3s;
-    border: 2px solid #e2e8f0;
+    border: 2px solid var(--color-border);
     cursor: pointer;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 .delivery-item:hover {
-    border-color: #f97316;
+    border-color: var(--color-accent);
     transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
@@ -258,34 +251,34 @@
 .delivery-item__title {
     font-size: 18px;
     font-weight: 700;
-    color: #1e293b;
+    color: var(--color-text);
     margin-bottom: 12px;
 }
 
 .delivery-item__desc {
     font-size: 14px;
-    color: #64748b;
+    color: var(--color-text-muted);
     line-height: 1.5;
 }
 
 /* ===== Реквизиты ===== */
 .requisites-section {
     padding: 80px 0;
-    background-color: #f8f9fa;
+    background-color: var(--color-bg);
 }
 
 .requisites-card {
-    background: white;
+    background: var(--color-surface);
     border-radius: 30px;
     padding: 50px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
 }
 
 .requisites-title {
     font-size: 32px;
     font-weight: 800;
-    color: #1e293b;
+    color: var(--color-text);
     margin-bottom: 32px;
     text-align: center;
 }
@@ -329,7 +322,7 @@
     align-items: center;
     gap: 8px;
     padding: 12px 24px;
-    background: linear-gradient(135deg, #f97316, #ff8c42);
+    background: var(--gradient-accent);
     color: white;
     text-decoration: none;
     border-radius: 12px;
@@ -345,7 +338,7 @@
 /* Карта */
 .map {
     padding: 40px 0;
-    background: #f8f9fa;
+    background: var(--color-bg);
 }
 
 .map-container {

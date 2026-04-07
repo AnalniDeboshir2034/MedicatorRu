@@ -1,4 +1,6 @@
 <?php
+require_once 'includes/site_settings.php';
+$siteSettings = load_site_settings();
 $BITRIX_WEBHOOK = 'https://k7s.bitrix24.by/rest/25370/o4k69x5rthf0grzi/crm.lead.add.json';
 
 $form_success = false;
@@ -89,25 +91,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                     <div class="contacts-info-list">
                         <div class="contacts-info-item">
                             <div class="contacts-info-item__title">Телефон</div>
-                            <div class="contacts-info-item__value">+7 (800) 123-45-67</div>
+                            <div class="contacts-info-item__value"><?= htmlspecialchars($siteSettings['contacts']['phone']) ?></div>
                             <div class="contacts-info-item__desc">Бесплатно по России</div>
                         </div>
                         
                         <div class="contacts-info-item">
                             <div class="contacts-info-item__title">E-mail</div>
-                            <div class="contacts-info-item__value">info@medicator.ru</div>
+                            <div class="contacts-info-item__value"><?= htmlspecialchars($siteSettings['contacts']['email']) ?></div>
                             <div class="contacts-info-item__desc">Ответим в течение часа</div>
                         </div>
                         
                         <div class="contacts-info-item">
                             <div class="contacts-info-item__title">Адрес</div>
-                            <div class="contacts-info-item__value">г. Москва, ул. Примерная, 1</div>
+                            <div class="contacts-info-item__value"><?= htmlspecialchars($siteSettings['contacts']['address']) ?></div>
                             <div class="contacts-info-item__desc">Офис и склад</div>
                         </div>
                         
                         <div class="contacts-info-item">
                             <div class="contacts-info-item__title">Режим работы</div>
-                            <div class="contacts-info-item__value">Пн-Пт: 9:00 — 18:00</div>
+                            <div class="contacts-info-item__value"><?= htmlspecialchars($siteSettings['contacts']['work_hours']) ?></div>
                             <div class="contacts-info-item__desc">Сб-Вс: выходной</div>
                         </div>
                     </div>
@@ -120,15 +122,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
             <div class="container">
                 <div class="contact-form-card">
                     <div class="contact-form-left">
-                        <h2 class="contact-form-title">СВЯЖИТЕСЬ<br><span class="gradient-text">С НАМИ</span></h2>
+                        <h2 class="contact-form-title"><?= htmlspecialchars($siteSettings['containers']['contacts_intro_title']) ?><br><span class="gradient-text"><?= htmlspecialchars($siteSettings['containers']['contacts_intro_subtitle']) ?></span></h2>
                         <p class="contact-form-text">
                             Оставьте заявку, и наш специалист свяжется с вами для консультации и подбора оборудования.
                         </p>
                         <div class="contact-form-contacts">
-                            <p>📞 +7 (800) 123-45-67</p>
-                            <p>✉️ info@medicator.ru</p>
-                            <p>📍 г. Минск, ул. Толбухино, д.2</p>
-                            <p>📍 г. Смоленск, ул. 2-я Вяземская, д.4</p>
+                            <p>📞 <?= htmlspecialchars($siteSettings['contacts']['phone']) ?></p>
+                            <p>✉️ <?= htmlspecialchars($siteSettings['contacts']['email']) ?></p>
+                            <p>📍 <?= htmlspecialchars($siteSettings['contacts']['address']) ?></p>
                         </div>
                     </div>
                     
