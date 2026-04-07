@@ -1,4 +1,4 @@
- <header class="header">
+ <!-- <header class="header">
     <div class="container">
         <div class="header__inner">
             <button class="burger-btn" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false" aria-controls="mainNav">
@@ -52,4 +52,28 @@
                      <a href="contacts.php#contactFormSplit" class="btn btn-primary header__order-btn">Заказать</a>
         </div>
     </div>
-</header>
+</header> -->
+ <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="index.php" class="logo">
+                    
+                    <span class="logo__text">7 company</span>
+                </a>
+
+                <nav class="nav">
+                    <ul class="nav__list">
+                        <li class="nav__item">
+                            <a href="index.php" class="nav__link ">Главная</a>
+                        </li>
+                        <li>
+                            <a href="catalog.php" class="nav__link">Каталог</a>
+                        </li>
+                        <li class="nav__item">
+                            <a href="contacts.php" class="nav__link">Контакты</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>

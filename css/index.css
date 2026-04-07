@@ -850,3 +850,64 @@
 .swiper-pagination-bullet-active {
     background: #f97316;
 }
+ .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            position: relative;
+        }
+        .modal-content.success { border-top: 5px solid #22c55e; }
+        .modal-content.error { border-top: 5px solid #ef4444; }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #64748b;
+        }
+        .modal-close:hover { color: #1e293b; }
+        .modal-icon { font-size: 48px; margin-bottom: 20px; }
+        .modal-title { font-size: 24px; font-weight: 700; margin-bottom: 10px; }
+        .modal-message { color: #64748b; margin-bottom: 20px; }
+        .modal-btn {
+            background: linear-gradient(135deg, #F45B2C, #FD9474);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        /* Бейджик популярного товара */
+        .product-card {
+            position: relative;
+        }
+        .popular-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #F45B2C, #FD9474);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }

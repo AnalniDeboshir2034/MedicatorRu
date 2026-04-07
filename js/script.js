@@ -209,31 +209,6 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-const callbackForm = document.getElementById('callback-form');
-if (callbackForm) {
-    callbackForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        
-        submitBtn.textContent = 'Отправляем...';
-        submitBtn.disabled = true;
-        
-        setTimeout(() => {
-            submitBtn.textContent = '✓ Отправлено!';
-            submitBtn.style.background = 'linear-gradient(135deg, #22c55e, #4ade80)';
-            
-            callbackForm.reset();
-            
-            setTimeout(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.style.background = 'linear-gradient(135deg, #f97316, #ff8c42)';
-                submitBtn.disabled = false;
-            }, 2000);
-        }, 1500);
-    });
-}
 
 document.querySelectorAll('.step-card__icon img').forEach(img => {
     img.addEventListener('error', function() {
@@ -250,36 +225,28 @@ document.querySelectorAll('.step-card__icon img').forEach(img => {
     });
 });
 // Обработка формы "Рассчитаем стоимость"
-const calcForm = document.getElementById('calc-form');
-if (calcForm) {
-    calcForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const phoneInput = this.querySelector('input[name="phone"]');
-        const phone = phoneInput.value;
-        const submitBtn = this.querySelector('.calc-btn');
-        const originalText = submitBtn.textContent;
-        
-        if (!phone) {
-            alert('Введите номер телефона');
-            return;
-        }
-        
-        submitBtn.textContent = 'Отправляем...';
-        submitBtn.disabled = true;
-        
-        console.log('Отправка заявки на расчет:', { phone });
-        
-        setTimeout(() => {
-            submitBtn.textContent = '✓ Отправлено!';
-            submitBtn.style.background = '#22c55e';
-            phoneInput.value = '';
-            
-            setTimeout(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.style.background = '#1e293b';
-                submitBtn.disabled = false;
-            }, 2000);
-        }, 1500);
+
+
+const modal = document.getElementById('notification-modal');
+const modalClose = document.querySelector('.modal-close');
+const modalBtn = document.querySelector('.modal-btn');
+
+function closeModal() {
+    modal.classList.remove('active');
+}
+
+if (modalClose) modalClose.addEventListener('click', closeModal);
+if (modalBtn) modalBtn.addEventListener('click', closeModal);
+modal?.addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// Swiper инициализация
+if (typeof Swiper !== 'undefined') {
+    new Swiper('.reviews-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        pagination: { el: '.swiper-pagination', clickable: true },
+        breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
     });
 }
