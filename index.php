@@ -126,6 +126,7 @@ if (empty($popular_products)) {
     <div class="container">
         <div class="hero-products__wrapper">
             <div class="hero-products__content">
+                <div class="hero-products__badge">Поставки по всей России</div>
                 <h1 class="hero-products__title">
                     <?= htmlspecialchars($siteSettings['index']['hero_title_top']) ?> <br>
                    <span class="gradient-text"><?= htmlspecialchars($siteSettings['index']['hero_title_bottom']) ?></span>
@@ -188,7 +189,10 @@ if (empty($popular_products)) {
 
 <section class="advantages">
     <div class="container">
-        <h1 class="section-title">ПОЧЕМУ ВЫБИРАЮТ <br> <span class="gradient-text">НАШИ ДОЗАТОРЫ</span></h1>
+        <div class="advantages__head">
+            <h1 class="section-title">ПОЧЕМУ ВЫБИРАЮТ <br> <span class="gradient-text">НАШИ ДОЗАТОРЫ</span></h1>
+            <a href="/contacts" class="advantages-calc-btn">Получить расчет <span>→</span></a>
+        </div>
         
         <div class="advantages__grid">
             <div class="advantage-card">

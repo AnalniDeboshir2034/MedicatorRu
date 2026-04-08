@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let activeSubcategories = new Set();
     const queryParam = new URLSearchParams(window.location.search).get('q');
     const hashMatch = String(window.location.hash || '').match(/cat=([^&]+)/i);
-    const categoryParam = hashMatch ? decodeURIComponent(hashMatch[1]) : '';
+    const categoryParam = hashMatch ? decodeURIComponent(hashMatch[1]).trim().toLowerCase() : '';
     const searchQuery = queryParam ? queryParam.trim().toLowerCase() : '';
     
     // Функция обновления счетчика товаров
@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const products = document.querySelectorAll('.product-card');
         
         products.forEach(product => {
-            const productCategory = product.dataset.category;
-            const productSubcategory = product.dataset.subcategory;
+            const productCategory = String(product.dataset.category || '').trim().toLowerCase();
+            const productSubcategory = String(product.dataset.subcategory || '').trim().toLowerCase();
             const titleEl = product.querySelector('.product-title');
             const productName = titleEl ? titleEl.textContent.trim().toLowerCase() : '';
             
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (activeCategory === 'all') {
                 categoryMatch = true;
             } else {
-                categoryMatch = (productCategory === activeCategory);
+                categoryMatch = (productCategory === String(activeCategory).trim().toLowerCase());
             }
             
             if (activeSubcategories.size === 0) {
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             categoryBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             
-            activeCategory = this.dataset.category;
+            activeCategory = String(this.dataset.category || '').trim().toLowerCase();
             
             // Если выбрана категория, сбрасываем фильтры подкатегорий
             if (activeCategory !== 'all') {
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 activeSubcategories.clear();
                 filterCheckboxes.forEach(checkbox => {
                     if (checkbox.checked && checkbox.dataset.category === activeCategory) {
-                        activeSubcategories.add(checkbox.value);
+                        activeSubcategories.add(String(checkbox.value || '').trim().toLowerCase());
                     }
                 });
             }
@@ -101,10 +101,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Если выбрана конкретная категория, переключаем на нее
             if (activeCategory !== category && this.checked) {
-                activeCategory = category;
+                activeCategory = String(category || '').trim().toLowerCase();
                 // Обновляем активный класс кнопок категорий
                 categoryBtns.forEach(btn => {
-                    if (btn.dataset.category === category) {
+                    if (String(btn.dataset.category || '').trim().toLowerCase() === activeCategory) {
                         btn.classList.add('active');
                     } else {
                         btn.classList.remove('active');
@@ -113,9 +113,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             if (this.checked) {
-                activeSubcategories.add(this.value);
+                activeSubcategories.add(String(this.value || '').trim().toLowerCase());
             } else {
-                activeSubcategories.delete(this.value);
+                activeSubcategories.delete(String(this.value || '').trim().toLowerCase());
             }
             
             filterProducts();
@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (categoryParam) {
         activeCategory = categoryParam;
         categoryBtns.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.category === activeCategory);
+            btn.classList.toggle('active', String(btn.dataset.category || '').trim().toLowerCase() === activeCategory);
         });
     }
     filterProducts();
