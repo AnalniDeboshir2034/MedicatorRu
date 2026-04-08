@@ -226,6 +226,11 @@
   color: #1e293b;
 }
 
+.advantage-card:nth-child(6) {
+  background: linear-gradient(135deg, #A6C1EA, #BCD2E9);
+  color: #1e293b;
+}
+
 .advantage-card__icon {
   font-size: 52px;
   margin-bottom: 20px;
@@ -752,6 +757,38 @@
   
   .contact-title {
     font-size: 32px;
+  }
+
+  /* Mobile slider-like view for popular products */
+  .products .products__grid {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 8px;
+  }
+
+  .products .products__grid .product-card {
+    min-width: 72%;
+    scroll-snap-align: start;
+  }
+
+  .products .products__grid .product-card .product-card__image {
+    height: 180px;
+  }
+
+  .products .products__grid .product-card .product-card__content {
+    padding: 16px;
+  }
+
+  .products .products__grid .product-card .product-card__actions {
+    gap: 8px;
+  }
+
+  .products .products__grid .product-card .product-card__actions .btn {
+    padding: 10px 12px;
+    font-size: 13px;
+    flex: 1 1 100%;
   }
 }
 

@@ -87,7 +87,6 @@ if ($result && $result->num_rows > 0) {
     }
 }
 
-// Если нет товаров с просмотрами, берем просто первые 3 товара
 if (empty($popular_products)) {
     $sql = "SELECT m.*, 
                    (SELECT path_img FROM medicator_img WHERE medicator_id = m.id AND is_Main = 1 LIMIT 1) as main_img
@@ -105,6 +104,7 @@ if (empty($popular_products)) {
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>7company - Медикаторы-дозаторы для сельского хозяйства</title>
@@ -122,7 +122,6 @@ if (empty($popular_products)) {
 
     <main class="main">
        
-<!-- Hero секция -->
 <section class="hero-products">
     <div class="container">
         <div class="hero-products__wrapper">
@@ -136,7 +135,7 @@ if (empty($popular_products)) {
                 </p>
                 <div class="hero-products__buttons">
                     <a href="#" class="btn btn-primary btn-order open-modal-form" data-form="hero">ОСТАВИТЬ ЗАЯВКУ</a>
-                    <a href="catalog.php" class="btn btn-outline btn-catalog">Каталог продукции →</a>
+                    <a href="/catalog" class="btn btn-outline btn-catalog">Каталог продукции →</a>
                 </div>
                 <div class="hero-products__stats">
                     <div class="stat-item">
@@ -169,19 +168,19 @@ if (empty($popular_products)) {
                     <div class="category-card category-card--gradient-1">
                         <h3 class="category-card__title">Медикаторы Master Pro</h3>
                         <p class="category-card__desc">Профессиональные медикаторы для крупных хозяйств с высокой производительностью</p>
-                        <a href="catalog.php" class="category-card__link">Перейти в каталог →</a>
+                        <a href="/catalog" class="category-card__link">Перейти в каталог →</a>
                     </div>
 
                     <div class="category-card category-card--gradient-2">
                         <h3 class="category-card__title">Медикаторы Dosatron</h3>
                         <p class="category-card__desc">Французские дозаторы с мировым именем — точность и надёжность</p>
-                        <a href="catalog.php" class="category-card__link">Перейти в каталог →</a>
+                        <a href="/catalog" class="category-card__link">Перейти в каталог →</a>
                     </div>
 
                     <div class="category-card category-card--gradient-3">
                         <h3 class="category-card__title">Медикаторы MixRite</h3>
                         <p class="category-card__desc">Израильские медикаторы для интенсивного животноводства и птицеводства</p>
-                        <a href="catalog.php" class="category-card__link">Перейти в каталог →</a>
+                        <a href="/catalog" class="category-card__link">Перейти в каталог →</a>
                     </div>
                 </div>
             </div>
@@ -300,13 +299,12 @@ if (empty($popular_products)) {
                         <?php if (!empty($product['total_views']) && $product['total_views'] > 0): ?>
                             <div class="popular-badge">🔥 Популярный</div>
                         <?php endif; ?>
-                        <div class="product-card__image">
+                        <a class="product-card__image" href="/product/<?= rawurlencode($product['slug']) ?>">
                             <img src="<?= htmlspecialchars($product['main_img'] ?? 'products/medikator.jpg') ?>" 
                                  alt="<?= htmlspecialchars($product['name']) ?>">
-                        </div>
+                        </a>
                         <div class="product-card__content">
-                            <h3 class="product-card__title"><?= htmlspecialchars($product['name']) ?></h3>
-                            <!-- ТУТ МЕНЯЕМ: Вместо opis выводим filtr -->
+                            <h3 class="product-card__title"><a href="/product/<?= rawurlencode($product['slug']) ?>"><?= htmlspecialchars($product['name']) ?></a></h3>
                             <p class="product-card__desc">
                                 <?= htmlspecialchars($product['filtr'] ?? 'Серия медикатора') ?>
                             </p>
@@ -325,13 +323,12 @@ if (empty($popular_products)) {
                                 >
                                     В корзину
                                 </button>
-                                <a href="product.php?slug=<?= urlencode($product['slug']) ?>" class="btn btn-primary">Подробнее</a>
+                                <a href="/product/<?= rawurlencode($product['slug']) ?>" class="btn btn-primary">Подробнее</a>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <!-- Заглушки -->
                 <div class="product-card">
                     <div class="product-card__image">
                         <img src="products/medikator.jpg" alt="Медикатор Master Pro">
@@ -376,7 +373,7 @@ if (empty($popular_products)) {
             <?php endif; ?>
         </div>
         <div class="text-center">
-            <a href="catalog.php" class="btn btn-large">Весь каталог →</a>
+            <a href="/catalog" class="btn btn-large">Весь каталог →</a>
         </div>
     </div>
 </section>
@@ -444,7 +441,6 @@ if (empty($popular_products)) {
     </div>
 </section>
    
-<!-- Секция "Свяжитесь с нами" -->
 <section class="contact-section">
     <div class="container">
         <div class="contact-wrapper">

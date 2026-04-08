@@ -1,4 +1,48 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const productPage = document.querySelector('.product-page');
+    const productLeft = document.querySelector('.product-left');
+    const productRight = document.querySelector('.product-right');
+    const productGallery = document.querySelector('.product-gallery');
+    const productTabs = document.querySelector('.product-tabs');
+    const productBadge = document.querySelector('.product-right .product-badge');
+    const productTitle = document.querySelector('.product-right .product-title');
+    const productSpecs = document.querySelector('.product-right .product-specs');
+    const productActions = document.querySelector('.product-right .product-actions');
+    const badgePlaceholder = document.createComment('badge-placeholder');
+    const titlePlaceholder = document.createComment('title-placeholder');
+    const specsPlaceholder = document.createComment('specs-placeholder');
+    const actionsPlaceholder = document.createComment('actions-placeholder');
+
+    function rearrangeProductLayout() {
+        if (!productLeft || !productRight || !productGallery || !productTabs || !productSpecs || !productActions) return;
+        if (window.matchMedia('(max-width: 992px)').matches) {
+            if (productBadge && !productLeft.contains(productBadge)) {
+                productRight.insertBefore(badgePlaceholder, productBadge);
+                productLeft.insertBefore(productBadge, productGallery);
+            }
+            if (productTitle && !productLeft.contains(productTitle)) {
+                productRight.insertBefore(titlePlaceholder, productTitle);
+                productLeft.insertBefore(productTitle, productGallery);
+            }
+            if (!productLeft.contains(productSpecs)) {
+                productRight.insertBefore(specsPlaceholder, productSpecs);
+                productLeft.insertBefore(productSpecs, productTabs);
+            }
+            if (!productLeft.contains(productActions)) {
+                productRight.insertBefore(actionsPlaceholder, productActions);
+                productLeft.insertBefore(productActions, productTabs);
+            }
+        } else {
+            if (productBadge && badgePlaceholder.parentNode) badgePlaceholder.parentNode.insertBefore(productBadge, badgePlaceholder);
+            if (productTitle && titlePlaceholder.parentNode) titlePlaceholder.parentNode.insertBefore(productTitle, titlePlaceholder);
+            if (productSpecs && specsPlaceholder.parentNode) specsPlaceholder.parentNode.insertBefore(productSpecs, specsPlaceholder);
+            if (productActions && actionsPlaceholder.parentNode) actionsPlaceholder.parentNode.insertBefore(productActions, actionsPlaceholder);
+        }
+    }
+
+    rearrangeProductLayout();
+    window.addEventListener('resize', rearrangeProductLayout);
+
     // ===== Галерея =====
     const slides = document.querySelectorAll('.gallery-slide');
     const thumbs = document.querySelectorAll('.thumb');

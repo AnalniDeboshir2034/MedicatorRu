@@ -24,11 +24,11 @@ if ($result && $result->num_rows > 0) {
         ];
     }
 }
-$mysqli->close();
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Корзина | 7company</title>
@@ -47,7 +47,7 @@ $mysqli->close();
                     <div>
                         <div id="cart-empty" class="cart-empty">
                             <p>Корзина пуста. Добавьте товары из каталога.</p>
-                            <a href="catalog.php" class="btn btn-primary">Перейти в каталог</a>
+                            <a href="/catalog" class="btn btn-primary">Перейти в каталог</a>
                         </div>
                         <div id="cart-list" class="cart-list" style="display:none;"></div>
                     </div>
@@ -80,6 +80,7 @@ $mysqli->close();
     </div>
 
     <?php require_once __DIR__ . '/includes/footer.php'; ?>
+    <?php $mysqli->close(); ?>
 
     <script>
         window.ALL_PRODUCTS_FOR_CART = <?= json_encode($products, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;

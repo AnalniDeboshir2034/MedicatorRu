@@ -32,11 +32,11 @@ if ($result && $result->num_rows > 0) {
         ];
     }
 }
-$mysqli->close();
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Сравнение товаров | 7company</title>
@@ -56,7 +56,7 @@ $mysqli->close();
 
                 <div id="compare-empty" class="compare-empty">
                     <p>Вы пока не добавили товары в сравнение.</p>
-                    <a href="catalog.php" class="btn btn-primary">Перейти в каталог</a>
+                    <a href="/catalog" class="btn btn-primary">Перейти в каталог</a>
                 </div>
 
                 <div id="compare-table-wrap" class="compare-table-wrap" style="display:none;">
@@ -67,7 +67,7 @@ $mysqli->close();
                     </div>
                      <div class="compare-actions">
                         <button type="button" class="btn btn-secondary" id="compare-clear">Очистить сравнение</button>
-                        <a href="catalog.php" class="btn btn-primary">Добавить еще товары</a>
+                        <a href="/catalog" class="btn btn-primary">Добавить еще товары</a>
                     </div>
                 </div>
             </div>
@@ -75,6 +75,7 @@ $mysqli->close();
     </main>
 
     <?php require_once __DIR__ . '/includes/footer.php'; ?>
+    <?php $mysqli->close(); ?>
 
     <script>
         window.ALL_PRODUCTS_FOR_COMPARE = <?= json_encode($products, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;

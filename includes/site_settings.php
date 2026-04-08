@@ -61,6 +61,13 @@ function load_site_settings()
 function save_site_settings(array $settings)
 {
     $path = get_site_settings_path();
+    $dir = dirname($path);
+    if (!is_dir($dir)) {
+        if (!mkdir($dir, 0755, true) && !is_dir($dir)) {
+            return false;
+        }
+    }
+
     $json = json_encode($settings, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     if ($json === false) {
         return false;

@@ -49,11 +49,11 @@ while ($row = $result->fetch_assoc()) {
     $products[] = $row;
 }
 
-$mysqli->close();
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>7company - Каталог</title>
@@ -77,6 +77,7 @@ $mysqli->close();
         <section class="catalog-categories">
             <div class="container">
                 <div class="catalog-categories__list">
+                    <button class="catalog-filter-toggle" id="catalogFilterToggle" type="button" aria-expanded="false">☰ Фильтры</button>
                     <button class="category-btn active" data-category="all">Все</button>
                     <?php foreach ($filters as $filter): ?>
                     <button class="category-btn" data-category="<?= htmlspecialchars($filter['slug']) ?>">
@@ -90,7 +91,8 @@ $mysqli->close();
         <section class="catalog-main">
             <div class="container">
                 <div class="catalog-grid">
-                    <aside class="catalog-filters">
+                    <aside class="catalog-filters" id="catalogFiltersPanel">
+                        <button class="catalog-filters__close" id="catalogFiltersClose" type="button" aria-label="Закрыть фильтры">×</button>
                         <?php if (!empty($subfilters)): ?>
                             <?php 
                             $current_filter = null;
@@ -137,15 +139,14 @@ $mysqli->close();
                                      data-subcategory="<?= htmlspecialchars($product['subfilter_slug'] ?? $product['filtr']) ?>">
                                     <div class="product-card__content">
                                         <?php if (!empty($product['main_img'])): ?>
-                                        <div class="product-image">
+                                        <a class="product-image" href="/product/<?= rawurlencode($product['slug']) ?>">
                                             <img src="<?= htmlspecialchars($product['main_img']) ?>" 
                                                  alt="<?= htmlspecialchars($product['name']) ?>">
-                                        </div>
+                                        </a>
                                         <?php endif; ?>
-                                        <h3 class="product-title"><?= htmlspecialchars($product['name']) ?></h3>
+                                        <h3 class="product-title"><a href="/product/<?= rawurlencode($product['slug']) ?>"><?= htmlspecialchars($product['name']) ?></a></h3>
                                         <p class="product-desc"><?= htmlspecialchars($product['filtr']) ?></p>
                                         
-                                        <!-- Характеристики товара -->
                                         <div class="product-specs">
                                             <?php if (!empty($product['d_dosing'])): ?>
                                             <span class="spec">Дозирование: <?= htmlspecialchars($product['d_dosing']) ?></span>
@@ -174,7 +175,7 @@ $mysqli->close();
                                             >
                                                 В корзину
                                             </button>
-                                            <a href="product.php?slug=<?= urlencode($product['slug']) ?>" class="product-btn">Подробнее →</a>
+                                            <button type="button" class="product-btn product-btn--details" data-href="/product/<?= rawurlencode($product['slug']) ?>">Подробнее</button>
                                         </div>
                                     </div>
                                 </div>
@@ -188,8 +189,10 @@ $mysqli->close();
             </div>
         </section>
     </main>
+    <div class="catalog-filters-overlay" id="catalogFiltersOverlay" aria-hidden="true"></div>
 
     <?php require_once __DIR__ . '/includes/footer.php'; ?>
+    <?php $mysqli->close(); ?>
     
 </body>
 </html>

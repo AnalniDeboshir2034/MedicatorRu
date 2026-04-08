@@ -6,9 +6,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const resetBtn = document.getElementById('reset-filters');
     const productsGrid = document.getElementById('products-grid');
     const productsCount = document.getElementById('products-count');
+    const filterToggleBtn = document.getElementById('catalogFilterToggle');
+    const filtersPanel = document.getElementById('catalogFiltersPanel');
+    const filtersCloseBtn = document.getElementById('catalogFiltersClose');
+    const filtersOverlay = document.getElementById('catalogFiltersOverlay');
     
     let activeCategory = 'all';
     let activeSubcategories = new Set();
+    const queryParam = new URLSearchParams(window.location.search).get('q');
+    const hashMatch = String(window.location.hash || '').match(/cat=([^&]+)/i);
+    const categoryParam = hashMatch ? decodeURIComponent(hashMatch[1]) : '';
+    const searchQuery = queryParam ? queryParam.trim().toLowerCase() : '';
     
     // Функция обновления счетчика товаров
     function updateProductsCount() {
@@ -23,9 +31,12 @@ document.addEventListener('DOMContentLoaded', function() {
         products.forEach(product => {
             const productCategory = product.dataset.category;
             const productSubcategory = product.dataset.subcategory;
+            const titleEl = product.querySelector('.product-title');
+            const productName = titleEl ? titleEl.textContent.trim().toLowerCase() : '';
             
             let categoryMatch = false;
             let subcategoryMatch = false;
+            let searchMatch = true;
             
             if (activeCategory === 'all') {
                 categoryMatch = true;
@@ -38,8 +49,12 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 subcategoryMatch = activeSubcategories.has(productSubcategory);
             }
+
+            if (searchQuery) {
+                searchMatch = productName.indexOf(searchQuery) !== -1;
+            }
             
-            if (categoryMatch && subcategoryMatch) {
+            if (categoryMatch && subcategoryMatch && searchMatch) {
                 product.classList.remove('hidden');
             } else {
                 product.classList.add('hidden');
@@ -184,5 +199,44 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Инициализация - показываем все товары
+    if (categoryParam) {
+        activeCategory = categoryParam;
+        categoryBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.category === activeCategory);
+        });
+    }
     filterProducts();
+
+    function closeFiltersPanel() {
+        if (!filtersPanel) return;
+        filtersPanel.classList.remove('is-open');
+        if (filtersOverlay) filtersOverlay.classList.remove('is-active');
+        if (filterToggleBtn) filterToggleBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    if (filterToggleBtn && filtersPanel) {
+        filterToggleBtn.addEventListener('click', function () {
+            const isOpen = filtersPanel.classList.toggle('is-open');
+            if (filtersOverlay) filtersOverlay.classList.toggle('is-active', isOpen);
+            filterToggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            if (isOpen) {
+                filtersPanel.querySelectorAll('.filter-group').forEach(function (group, idx) {
+                    group.style.animationDelay = (idx * 70) + 'ms';
+                });
+            }
+        });
+    }
+    if (filtersCloseBtn) filtersCloseBtn.addEventListener('click', closeFiltersPanel);
+    if (filtersOverlay) filtersOverlay.addEventListener('click', closeFiltersPanel);
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeFiltersPanel();
+    });
+
+    // "Подробнее" как button
+    document.querySelectorAll('.product-btn--details').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var href = btn.getAttribute('data-href');
+            if (href) window.location.href = href;
+        });
+    });
 });

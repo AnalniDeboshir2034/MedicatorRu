@@ -71,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>7company - Контакты</title>
@@ -81,7 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
    <?php  require_once 'includes/header.php';?>
 
     <main class="main">
-        <!-- Контактная информация -->
         <section class="contacts-info-section">
             <div class="container">
                 <div class="contacts-info-card">
@@ -117,7 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
             </div>
         </section>
 
-        <!-- Форма обратной связи -->
         <section class="contact-form-section">
             <div class="container">
                 <div class="contact-form-card">
@@ -165,7 +164,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
             </div>
         </section>
 
-        <!-- Карта -->
         <section class="map">
             <div class="container">
                 <h2 class="section-title">Мы на карте</h2>
@@ -178,7 +176,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
             </div>
         </section>
 
-        <!-- Условия доставки -->
         <section class="delivery-section">
             <div class="container">
                 <div class="delivery-card">
@@ -210,7 +207,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
             </div>
         </section>
 
-        <!-- Реквизиты -->
         <section class="requisites-section">
             <div class="container">
                 <div class="requisites-card">
@@ -266,7 +262,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Яндекс карта
         function initMap() {
             if (typeof ymaps === 'undefined') {
                 console.log('Yandex Maps API не загружен');

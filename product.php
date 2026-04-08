@@ -1,12 +1,11 @@
 <?php 
 require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/bbcode.php';
 
-// Проверка подключения
 if (!$mysqli || $mysqli->connect_error) {
     die("❌ Нет соединения с БД");
 }
 
-// Получаем slug из URL
 $slug = isset($_GET['slug']) ? $_GET['slug'] : '';
 
 if (empty($slug)) {
@@ -14,7 +13,6 @@ if (empty($slug)) {
     exit;
 }
 
-// Получаем информацию о товаре
 $product = null;
 $stmt = $mysqli->prepare("
     SELECT m.*, 
@@ -34,7 +32,6 @@ if (!$product) {
     exit;
 }
 
-// Получаем все изображения товара
 $images = [];
 $stmt = $mysqli->prepare("
     SELECT * FROM `medicator_img` 
@@ -48,12 +45,10 @@ while ($row = $result->fetch_assoc()) {
     $images[] = $row;
 }
 
-// Если нет изображений, добавляем плейсхолдер
 if (empty($images)) {
     $images[] = ['path_img' => '', 'is_Main' => 1];
 }
 
-// Добавляем просмотр
 $stmt = $mysqli->prepare("
     INSERT INTO medicator_view (medicator_id, medicator_name, view_data, view_count) 
     VALUES (?, ?, CURDATE(), 1)
@@ -62,7 +57,6 @@ $stmt = $mysqli->prepare("
 $stmt->bind_param("is", $product['id'], $product['name']);
 $stmt->execute();
 
-// Получаем количество просмотров
 $views = 0;
 $stmt = $mysqli->prepare("
     SELECT SUM(view_count) as total_views 
@@ -75,12 +69,54 @@ $result = $stmt->get_result();
 $viewsRow = $result->fetch_assoc();
 $views = $viewsRow['total_views'] ?? 0;
 
-$mysqli->close();
+$relatedProducts = [];
+$relatedSeen = [];
+$stmt = $mysqli->prepare("
+    SELECT m.*,
+           (SELECT path_img FROM medicator_img WHERE medicator_id = m.id AND is_Main = 1 LIMIT 1) as main_img
+    FROM medicator m
+    WHERE m.id != ? AND m.filtr = ?
+    ORDER BY m.id DESC
+    LIMIT 8
+");
+$stmt->bind_param("is", $product['id'], $product['filtr']);
+$stmt->execute();
+$resRelated = $stmt->get_result();
+while ($resRelated && ($row = $resRelated->fetch_assoc())) {
+    $rid = (int)$row['id'];
+    if (!isset($relatedSeen[$rid])) {
+        $relatedSeen[$rid] = true;
+        $relatedProducts[] = $row;
+    }
+}
+
+if (count($relatedProducts) < 4) {
+    $stmt = $mysqli->prepare("
+        SELECT m.*,
+               (SELECT path_img FROM medicator_img WHERE medicator_id = m.id AND is_Main = 1 LIMIT 1) as main_img
+        FROM medicator m
+        WHERE m.id != ?
+        ORDER BY m.id DESC
+        LIMIT 8
+    ");
+    $stmt->bind_param("i", $product['id']);
+    $stmt->execute();
+    $resAny = $stmt->get_result();
+    while ($resAny && ($row = $resAny->fetch_assoc())) {
+        $rid = (int)$row['id'];
+        if (!isset($relatedSeen[$rid])) {
+            $relatedSeen[$rid] = true;
+            $relatedProducts[] = $row;
+        }
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($product['name']) ?> | 7company</title>
@@ -92,12 +128,11 @@ $mysqli->close();
 
     <main class="main">
         <div class="container">
-            <!-- Хлебные крошки -->
             <div class="breadcrumbs">
-                <a href="index.php">Главная</a> /
-                <a href="catalog.php">Каталог</a> /
+                <a href="/">Главная</a> /
+                <a href="/catalog">Каталог</a> /
                 <?php if ($product['filter_name']): ?>
-                <a href="catalog.php?category=<?= urlencode($product['filter_slug']) ?>">
+                <a href="/catalog?category=<?= rawurlencode($product['filter_slug']) ?>">
                     <?= htmlspecialchars($product['filter_name']) ?>
                 </a> /
                 <?php endif; ?>
@@ -105,9 +140,7 @@ $mysqli->close();
             </div>
 
             <div class="product-page">
-                <!-- Левая колонка - Галерея + Табы -->
                 <div class="product-left">
-                    <!-- Галерея -->
                     <div class="product-gallery">
                         <div class="gallery-main">
                             <?php foreach ($images as $index => $img): ?>
@@ -144,7 +177,6 @@ $mysqli->close();
                         <?php endif; ?>
                     </div>
 
-                    <!-- Табы (под галереей) -->
                     <div class="product-tabs">
                         <div class="tabs-header">
                             <button class="tab-btn active" data-tab="description">Описание</button>
@@ -152,18 +184,16 @@ $mysqli->close();
                         </div>
                         
                         <div class="tabs-content">
-                            <!-- Таб Описание -->
                             <div class="tab-pane active" id="tab-description">
                                 <div class="product-description">
                                     <?php if (!empty($product['opis'])): ?>
-                                        <p><?= nl2br(htmlspecialchars($product['opis'])) ?></p>
+                                        <?= bbcode_to_html($product['opis']) ?>
                                     <?php else: ?>
                                         <p>Описание товара отсутствует</p>
                                     <?php endif; ?>
                                 </div>
                             </div>
                             
-                            <!-- Таб Документация -->
                             <div class="tab-pane" id="tab-docs">
                                 <div class="product-docs">
                                     <?php if (!empty($product['passport']) || !empty($product['user_pass'])): ?>
@@ -283,14 +313,37 @@ $mysqli->close();
                         >
                             В корзину
                         </button>
-                        <a href="catalog.php" class="btn btn-secondary">← Вернуться к каталогу</a>
+                        <a href="/catalog" class="btn btn-secondary">← Вернуться к каталогу</a>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
+    <?php if (!empty($relatedProducts)): ?>
+    <section class="related-products">
+        <div class="container">
+            <h2 class="section-title">Похожие <span class="gradient-text">товары</span></h2>
+            <div class="related-products__list">
+                <?php foreach ($relatedProducts as $rp): ?>
+                    <article class="related-product-card">
+                        <div class="related-product-card__image">
+                            <img src="<?= htmlspecialchars($rp['main_img'] ?? 'products/medikator.jpg') ?>" alt="<?= htmlspecialchars($rp['name']) ?>">
+                        </div>
+                        <div class="related-product-card__body">
+                            <h3><?= htmlspecialchars($rp['name']) ?></h3>
+                            <p><?= htmlspecialchars($rp['filtr'] ?? 'Серия') ?></p>
+                            <a class="btn btn-primary" href="/product/<?= rawurlencode($rp['slug']) ?>">Подробнее</a>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
+
     <?php require_once __DIR__ . '/includes/footer.php'; ?>
+    <?php $mysqli->close(); ?>
     
     <script src="js/product.js"></script>
     <script>

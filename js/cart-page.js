@@ -52,9 +52,9 @@ document.addEventListener('DOMContentLoaded', function () {
         rows.forEach(function (row) {
             var p = row.product;
             html += '<div class="cart-item">';
-            html += '<div class="cart-item__img"><img src="' + esc(p.image || 'products/medikator.jpg') + '" alt="' + esc(p.name) + '"></div>';
+            html += '<div class="cart-item__img"><a href="/product/' + encodeURIComponent(p.slug || '') + '"><img src="' + esc(p.image || 'products/medikator.jpg') + '" alt="' + esc(p.name) + '"></a></div>';
             html += '<div class="cart-item__body">';
-            html += '<div class="cart-item__name">' + esc(p.name) + '</div>';
+            html += '<div class="cart-item__name"><a href="/product/' + encodeURIComponent(p.slug || '') + '">' + esc(p.name) + '</a></div>';
             html += '<div class="cart-item__meta">Серия: ' + esc(p.series || '-') + '</div>';
             html += '<div class="cart-item__qty">';
             html += '<button type="button" data-cart-minus="' + esc(p.id) + '">-</button>';

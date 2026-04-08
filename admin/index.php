@@ -43,10 +43,10 @@ admin_page_start('Админ-панель');
     <h2>Разделы</h2>
     <p class="muted">Админка разделена на отдельные страницы.</p>
     <ul>
-        <li><a href="medicators.php">Медикаторы</a></li>
-        <li><a href="gallery.php">Галерея медикаторов</a></li>
-        <li><a href="filters.php">Фильтры и субфильтры</a></li>
-        <li><a href="settings.php">JSON настройки сайта</a></li>
+        <li><a href="/admin/medicators">Медикаторы</a></li>
+        <li><a href="/admin/gallery">Галерея медикаторов</a></li>
+        <li><a href="/admin/filters">Фильтры и субфильтры</a></li>
+        <li><a href="/admin/settings">JSON настройки сайта</a></li>
     </ul>
 </div>
 <?php admin_page_end(); ?>

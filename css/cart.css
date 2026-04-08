@@ -54,6 +54,11 @@
     margin-bottom: 6px;
 }
 
+.cart-item__name a {
+    color: inherit;
+    text-decoration: none;
+}
+
 .cart-item__meta {
     font-size: 13px;
     color: var(--color-text-muted);

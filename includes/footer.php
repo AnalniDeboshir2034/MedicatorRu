@@ -6,7 +6,7 @@ $siteSettings = $siteSettings ?? load_site_settings();
         <div class="container">
             <div class="footer__content">
                 <div class="footer__col">
-                    <a href="index.php" class="footer-logo"><?= htmlspecialchars($siteSettings['header']['brand_name']) ?></a>
+                    <a href="/" class="footer-logo"><?= htmlspecialchars($siteSettings['header']['brand_name']) ?></a>
                     <p class="footer__text"><?= htmlspecialchars($siteSettings['footer']['company_description']) ?></p>
                 </div>
                 <div class="footer__col">
@@ -20,9 +20,9 @@ $siteSettings = $siteSettings ?? load_site_settings();
                 <div class="footer__col">
                     <h3 class="footer__title">Навигация</h3>
                     <ul class="footer__list">
-                        <li><a href="index.php">Главная</a></li>
-                        <li><a href="catalog.php">Каталог</a></li>
-                        <li><a href="contacts.php">Контакты</a></li>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/catalog">Каталог</a></li>
+                        <li><a href="/contacts">Контакты</a></li>
                     </ul>
                 </div>
                 <div class="footer__col">

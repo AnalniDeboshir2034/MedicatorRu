@@ -59,13 +59,13 @@ document.addEventListener('DOMContentLoaded', function () {
             html += '<th>';
             html += '<div class="compare-product-card">';
             if (product.image) {
-                html += '<img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.name) + '">';
+                html += '<a href="/product/' + encodeURIComponent(product.slug || '') + '"><img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.name) + '"></a>';
             }
-            html += '<div class="compare-product-name">' + escapeHtml(product.name) + '</div>';
+            html += '<div class="compare-product-name"><a href="/product/' + encodeURIComponent(product.slug || '') + '">' + escapeHtml(product.name) + '</a></div>';
             html += '<div class="compare-product-actions">';
             html += '<button type="button" class="btn compare-remove-btn" data-compare-remove="' + escapeHtml(product.id) + '">Удалить</button>';
             html += '<button type="button" class="btn btn-secondary" data-cart-add data-cart-id="' + escapeHtml(product.id) + '">В корзину</button>';
-            html += '<a class="btn btn-secondary" href="product.php?slug=' + encodeURIComponent(product.slug || '') + '">Подробнее</a>';
+            html += '<a class="btn btn-secondary" href="/product/' + encodeURIComponent(product.slug || '') + '">Подробнее</a>';
             html += '</div></div></th>';
         });
         html += '</tr>';

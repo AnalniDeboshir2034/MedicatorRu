@@ -76,50 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
     
-    const createMobileMenu = () => {
-        if (window.innerWidth <= 768) {
-            const nav = document.querySelector('.nav');
-            const headerInner = document.querySelector('.header__inner');
-            
-            if (nav && !document.querySelector('.mobile-menu-btn')) {
-                const menuBtn = document.createElement('button');
-                menuBtn.className = 'mobile-menu-btn';
-                menuBtn.innerHTML = '☰';
-                menuBtn.style.cssText = `
-                    font-size: 30px;
-                    background: none;
-                    border: none;
-                    cursor: pointer;
-                    color: #f97316;
-                    display: block;
-                `;
-                
-                menuBtn.addEventListener('click', () => {
-                    const navList = document.querySelector('.nav__list');
-                    if (navList.style.display === 'flex') {
-                        navList.style.display = 'none';
-                    } else {
-                        navList.style.display = 'flex';
-                        navList.style.flexDirection = 'column';
-                        navList.style.position = 'absolute';
-                        navList.style.top = '80px';
-                        navList.style.left = '0';
-                        navList.style.right = '0';
-                        navList.style.backgroundColor = 'white';
-                        navList.style.padding = '20px';
-                        navList.style.boxShadow = '0 4px 10px rgba(0,0,0,0.1)';
-                    }
-                });
-                
-                headerInner.insertBefore(menuBtn, nav);
-            }
-        }
-    };
+    // Mobile menu is handled in includes/header.php + CSS.
     
-    createMobileMenu();
-    window.addEventListener('resize', createMobileMenu);
-    
-    console.log('Сайт готов! Все анимации работают');
 });
 
 const advantageObserver = new IntersectionObserver((entries) => {

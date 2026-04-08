@@ -1,103 +1,87 @@
- <!-- <header class="header">
-    <div class="container">
-        <div class="header__inner">
-            <button class="burger-btn" id="burgerBtn" aria-label="Открыть меню" aria-expanded="false" aria-controls="mainNav">
-                <span class="burger-btn__line"></span>
-                <span class="burger-btn__line"></span>
-                <span class="burger-btn__line"></span>
-            </button>
-
-            <a href="index.php" class="logo">
-                <div class="logo__img">
-                    <img src="logo.jpg" alt="7company" width="40" height="40" loading="lazy">
-                </div>
-                <span class="logo__text">7 company</span>
-            </a>
-
-   
-
-            <div class="nav-overlay" id="navOverlay"></div>
-
-            <nav class="nav" id="mainNav" aria-label="Основная навигация">
-                <ul class="nav__list">
-                    <li class="nav__item">
-                        <a href="index.php" class="nav__link nav__link--active">Главная</a>
-                    </li>
-                    <li class="nav__item has-dropdown">
-                        <a href="catalog.php" class="catalog-link" id="catalogLink">
-                            Каталог
-                        </a>
-                        <ul class="dropdown-menu" id="catalogDropdown">
-                            <li><a href="catalog.php">Все модели</a></li>
-                            <li><a href="catalog.php">DIA</a></li>
-                            <li><a href="catalog.php">D07</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav__item">
-                        <a href="contacts.php" class="nav__link">Контакты</a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="compare.php" class="nav__link">Сравнение</a>
-                    </li>
-                    <li class="nav__item nav__item--search">
-                        <div class="sidebar-search">
-                            <div class="search-box">
-                                <input type="text" id="searchInput" placeholder="Поиск по названию...">
-                                <button id="searchBtn" type="button">🔍</button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-                     <a href="contacts.php#contactFormSplit" class="btn btn-primary header__order-btn">Заказать</a>
-        </div>
-    </div>
-</header> -->
 <?php
 require_once __DIR__ . '/site_settings.php';
 $siteSettings = $siteSettings ?? load_site_settings();
+
+$headerCatalogFilters = [];
+if (isset($mysqli) && $mysqli instanceof mysqli) {
+    try {
+        if (@$mysqli->ping()) {
+            $res = $mysqli->query("SELECT name, slug FROM `filter` ORDER BY id ASC LIMIT 3");
+            if ($res) {
+                while ($row = $res->fetch_assoc()) {
+                    $headerCatalogFilters[] = $row;
+                }
+                $res->free();
+            }
+        }
+    } catch (Throwable $e) {
+    }
+}
 ?>
- <header class="header">
-        <div class="container">
-            <div class="header__inner">
-                <a href="index.php" class="logo">
-                    
+<header class="header">
+    <div class="container">
+        <div class="header__inner">
+            <div class="header-left">
+                <button type="button" class="header-burger-btn" id="headerBurgerBtn" aria-label="Открыть меню" aria-expanded="false">
+                    ☰
+                </button>
+                <a href="/" class="logo">
                     <span class="logo__text"><?= htmlspecialchars($siteSettings['header']['brand_name']) ?></span>
                 </a>
-
-                <nav class="nav">
-                    <ul class="nav__list">
-                        <li class="nav__item">
-                            <a href="index.php" class="nav__link ">Главная</a>
-                        </li>
-                        <li>
-                            <a href="catalog.php" class="nav__link">Каталог</a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="contacts.php" class="nav__link">Контакты</a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="compare.php" class="nav__link">
-                                Сравнение (<span data-compare-count>0</span>)
-                            </a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="cart.php" class="nav__link">
-                                Корзина (<span data-cart-count>0</span>)
-                            </a>
-                        </li>
-                        <li class="nav__item">
-                            <a href="admin/index.php" class="nav__link">Админка</a>
-                        </li>
-                    </ul>
-                </nav>
-
-                <button type="button" class="btn btn-primary header-lead-open" data-lead-open>
-                    <?= htmlspecialchars($siteSettings['header']['lead_button_text']) ?>
-                </button>
             </div>
+
+            <nav class="nav" id="siteMainNav">
+                <button type="button" class="header-nav-close" id="headerNavClose" aria-label="Закрыть меню">×</button>
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="/" class="nav__link">Главная</a></li>
+                    <li class="nav__item nav-catalog">
+                        <button type="button" class="nav__link nav-catalog__toggle" id="headerCatalogToggle" aria-expanded="false">
+                            Каталог <span class="nav-catalog__arrow">▾</span>
+                        </button>
+                        <ul class="nav-catalog__dropdown" id="headerCatalogDropdown">
+                            <li><a href="/catalog">Все товары</a></li>
+                            <?php foreach ($headerCatalogFilters as $f): ?>
+                                <li><a href="/catalog#cat=<?= rawurlencode($f['slug']) ?>"><?= htmlspecialchars($f['name']) ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                    <li class="nav__item"><a href="/contacts" class="nav__link">Контакты</a></li>
+                    <li class="nav__item"><a href="/compare" class="nav__link">Сравнение <span  class="nav-cart-count" data-compare-count>0</span></a></li>
+                </ul>
+            </nav>
+
+            <form class="header-search" id="headerSearchForm">
+                <input id="headerSearchInput" name="q" type="text" placeholder="Поиск товара...">
+                <button type="submit" aria-label="Поиск"><img src="/products/search.png" alt=""></button>
+            </form>
+
+            <div class="header-right">
+                <button type="button" class="header-search-mobile-btn" id="headerSearchMobileBtn" aria-label="Поиск">
+                    <img src="/products/search.png" alt="">
+                </button>
+                <a href="/cart" class="header-cart-btn" aria-label="Корзина">
+                    <img src="/products/cart.png" alt="">
+                    <span class="header-cart-btn__count" data-cart-count>0</span>
+                </a>
+            </div>
+
+            <button type="button" class="btn btn-primary header-lead-open" data-lead-open>
+                <?= htmlspecialchars($siteSettings['header']['lead_button_text']) ?>
+            </button>
         </div>
-    </header>
+    </div>
+</header>
+<div class="header-menu-overlay" id="headerMenuOverlay" aria-hidden="true"></div>
+<div class="header-search-modal" id="headerSearchModal" aria-hidden="true">
+    <div class="header-search-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="headerSearchModalTitle">
+        <button type="button" class="header-search-modal__close" id="headerSearchModalClose" aria-label="Закрыть поиск">×</button>
+        <h3 id="headerSearchModalTitle">Поиск по каталогу</h3>
+        <form class="header-search-modal__form" id="headerSearchModalForm">
+            <input id="headerSearchModalInput" type="text" name="q" placeholder="Введите название товара...">
+            <button type="submit">Найти</button>
+        </form>
+    </div>
+</div>
 
     <div class="header-lead-modal" id="headerLeadModal" aria-hidden="true">
         <div class="header-lead-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="headerLeadTitle">
@@ -117,78 +101,6 @@ $siteSettings = $siteSettings ?? load_site_settings();
         </div>
     </div>
 
-    <script>
-    (function () {
-        var modal = document.getElementById('headerLeadModal');
-        var openBtn = document.querySelector('[data-lead-open]');
-        var closeBtn = document.querySelector('[data-lead-close]');
-        var form = document.getElementById('headerLeadForm');
-        var status = document.getElementById('headerLeadStatus');
-
-        if (!modal || !openBtn || !closeBtn || !form || !status) {
-            return;
-        }
-
-        function openModal() {
-            modal.classList.add('is-active');
-            modal.setAttribute('aria-hidden', 'false');
-        }
-
-        function closeModal() {
-            modal.classList.remove('is-active');
-            modal.setAttribute('aria-hidden', 'true');
-        }
-
-        function setStatus(message, isError) {
-            status.textContent = message;
-            status.classList.toggle('is-error', !!isError);
-            status.classList.toggle('is-success', !isError);
-        }
-
-        openBtn.addEventListener('click', openModal);
-        closeBtn.addEventListener('click', closeModal);
-
-        modal.addEventListener('click', function (event) {
-            if (event.target === modal) {
-                closeModal();
-            }
-        });
-
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape' && modal.classList.contains('is-active')) {
-                closeModal();
-            }
-        });
-
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            setStatus('Отправляем заявку...', false);
-
-            var submitBtn = form.querySelector('button[type="submit"]');
-            submitBtn.disabled = true;
-
-            fetch('includes/bitrix_form.php', {
-                method: 'POST',
-                body: new FormData(form)
-            })
-            .then(function (response) { return response.json(); })
-            .then(function (data) {
-                if (data && data.success) {
-                    setStatus(data.message || 'Заявка отправлена! Мы свяжемся с вами.', false);
-                    form.reset();
-                    setTimeout(closeModal, 1200);
-                } else {
-                    setStatus((data && data.message) || 'Ошибка отправки. Попробуйте позже.', true);
-                }
-            })
-            .catch(function () {
-                setStatus('Ошибка сети. Проверьте подключение и попробуйте снова.', true);
-            })
-            .finally(function () {
-                submitBtn.disabled = false;
-            });
-        });
-    })();
-    </script>
+    <script src="js/header.js" defer></script>
     <script src="js/compare-storage.js" defer></script>
     <script src="js/cart-storage.js" defer></script>
