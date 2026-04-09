@@ -385,7 +385,7 @@
 /* Характеристики */
 .product-specs {
     background: var(--color-bg);
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 20px;
     margin-bottom: 24px;
 }
@@ -432,14 +432,19 @@
 .product-actions {
     padding-top: 16px;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 10px;
 }
 
 .product-actions .btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 0;
     padding: 12px 24px;
     font-size: 14px;
+    text-align: center;
+    white-space: nowrap;
 }
 
 /* ===== Адаптив ===== */
@@ -471,6 +476,14 @@
 }
 
 @media (max-width: 768px) {
+    .product-actions {
+        flex-wrap: wrap;
+    }
+
+    .product-actions .btn {
+        flex: 1 1 100%;
+    }
+
     .gallery-main {
         height: 300px;
     }
@@ -561,4 +574,19 @@
     font-size: 15px;
     color: #475569;
     line-height: 1.6;
+}
+.btn-order {
+  background: var(--gradient-accent);
+  color: white;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: inline-block;
+}
+
+.btn-order:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(249, 115, 22, 0.3);
 }

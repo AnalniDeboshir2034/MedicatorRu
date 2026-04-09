@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var searchInput = document.getElementById('headerSearchInput');
     var modal = document.getElementById('headerLeadModal');
     var openBtn = document.querySelector('[data-lead-open]');
+    var openModalLinks = document.querySelectorAll('.open-modal-form');
     var closeBtn = document.querySelector('[data-lead-close]');
     var form = document.getElementById('headerLeadForm');
     var status = document.getElementById('headerLeadStatus');
@@ -127,9 +128,20 @@ document.addEventListener('DOMContentLoaded', function () {
         status.classList.toggle('is-success', !isError);
     }
 
-    if (!modal || !openBtn || !closeBtn || !form || !status) return;
+    if (!modal || !closeBtn || !form || !status) return;
 
-    openBtn.addEventListener('click', openModal);
+    if (openBtn) {
+        openBtn.addEventListener('click', openModal);
+    }
+
+    if (openModalLinks.length) {
+        openModalLinks.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                openModal();
+            });
+        });
+    }
     closeBtn.addEventListener('click', closeModal);
 
     modal.addEventListener('click', function (event) {

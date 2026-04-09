@@ -56,7 +56,8 @@ while ($row = $result->fetch_assoc()) {
     <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>7company - Каталог</title>
+    <link rel="icon" href="/products/favico.png">
+    <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/catalog.css">
     <script src="js/catalog.js" defer></script>
@@ -164,17 +165,13 @@ while ($row = $result->fetch_assoc()) {
                                                 type="button"
                                                 class="product-btn product-btn--compare"
                                                 data-compare-id="<?= (int)$product['id'] ?>"
-                                            >
-                                                В сравнение
-                                            </button>
+                                            > В сравнение</button>
                                             <button
                                                 type="button"
                                                 class="product-btn product-btn--cart"
                                                 data-cart-add
-                                                data-cart-id="<?= (int)$product['id'] ?>"
-                                            >
-                                                В корзину
-                                            </button>
+                                                data-cart-id="<?= (int)$product['id'] ?>">
+                                                В корзину</button>
                                             <button type="button" class="product-btn product-btn--details" data-href="/product/<?= rawurlencode($product['slug']) ?>">Подробнее</button>
                                         </div>
                                     </div>

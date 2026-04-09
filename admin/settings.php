@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'setti
     if (save_site_settings($current)) {
         $success = 'JSON настройки сохранены';
     } else {
-        $error = 'Не удалось сохранить JSON. Проверь права на папку includes/storage.';
+        $error = 'Не удалось сохранить JSON. Проверь права на папку /storage.';
     }
 }
 

@@ -6,7 +6,7 @@ $siteSettings = $siteSettings ?? load_site_settings();
         <div class="container">
             <div class="footer__content">
                 <div class="footer__col">
-                    <a href="/" class="footer-logo"><?= htmlspecialchars($siteSettings['header']['brand_name']) ?></a>
+                    <a href="/" class="footer-logo"><img src="products/footer-icon.png"></a>
                     <p class="footer__text"><?= htmlspecialchars($siteSettings['footer']['company_description']) ?></p>
                 </div>
                 <div class="footer__col">

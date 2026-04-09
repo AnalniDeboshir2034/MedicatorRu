@@ -2,7 +2,7 @@
 
 function get_site_settings_path()
 {
-    return __DIR__ . '/storage/site_settings.json';
+    return __DIR__ . '/includes/storage/site_settings.json';
 }
 
 function get_default_site_settings()

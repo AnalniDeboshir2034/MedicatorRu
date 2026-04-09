@@ -21,7 +21,7 @@ if (empty($name) || empty($phone)) {
 
 $leadData = [
     'fields' => [
-        'TITLE' => 'Заявка с сайта 7company - ' . $form_type,
+        'TITLE' => 'Заявка с сайта Медикатор ру - ' . $form_type,
         'NAME' => $name,
         'PHONE' => [['VALUE' => $phone, 'VALUE_TYPE' => 'WORK']],
         'SOURCE_ID' => 'WEB',

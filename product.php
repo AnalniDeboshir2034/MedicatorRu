@@ -119,7 +119,8 @@ if (count($relatedProducts) < 4) {
     <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($product['name']) ?> | 7company</title>
+    <link rel="icon" href="/products/favico.png">
+    <title><?= htmlspecialchars($product['name']) ?> | Medikator.ru</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/product.css">
 </head>
@@ -205,7 +206,7 @@ if (count($relatedProducts) < 4) {
                                                     <div class="doc-title">Паспорт изделия</div>
                                                     <div class="doc-size">PDF документ</div>
                                                 </div>
-                                                <div class="doc-download">Скачать →</div>
+                                                <div class="doc-download">Скачать</div>
                                             </a>
                                             <?php endif; ?>
                                             
@@ -216,7 +217,7 @@ if (count($relatedProducts) < 4) {
                                                     <div class="doc-title">Руководство пользователя</div>
                                                     <div class="doc-size">PDF документ</div>
                                                 </div>
-                                                <div class="doc-download">Скачать →</div>
+                                                <div class="doc-download">Скачать</div>
                                             </a>
                                             <?php endif; ?>
                                         </div>
@@ -298,6 +299,7 @@ if (count($relatedProducts) < 4) {
                     </div>
 
                     <div class="product-actions">
+                        <a href="#" class="btn btn-order open-modal-form" data-form="hero">Заказать</a>
                         <button
                             type="button"
                             class="btn btn-secondary btn-compare"
@@ -313,7 +315,6 @@ if (count($relatedProducts) < 4) {
                         >
                             В корзину
                         </button>
-                        <a href="/catalog" class="btn btn-secondary">← Вернуться к каталогу</a>
                     </div>
                 </div>
             </div>

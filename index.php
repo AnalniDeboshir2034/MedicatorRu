@@ -107,9 +107,11 @@ if (empty($popular_products)) {
     <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>7company - Медикаторы-дозаторы для сельского хозяйства</title>
+    <link rel="icon" href="/products/favico.png">
+    <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/index.css">
+    <meta name="yandex-verification" content="ff211df62d2d2555" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <script src="js/script.js" defer></script>
@@ -117,6 +119,28 @@ if (empty($popular_products)) {
        
     </style>
 </head>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=108462270', 'ym');
+
+    ym(108462270, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/108462270" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+ <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8J625SZ5ZB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8J625SZ5ZB');
+</script>
 <body>
     <?php require_once 'includes/header.php'; ?>
 
@@ -135,8 +159,11 @@ if (empty($popular_products)) {
                     <?= htmlspecialchars($siteSettings['index']['hero_text']) ?>
                 </p>
                 <div class="hero-products__buttons">
-                    <a href="#" class="btn btn-primary btn-order open-modal-form" data-form="hero">ОСТАВИТЬ ЗАЯВКУ</a>
-                    <a href="/catalog" class="btn btn-outline btn-catalog">Каталог продукции →</a>
+                    <a href="#" class="btn btn-primary btn-order open-modal-form" data-form="hero">
+                        ОСТАВИТЬ ЗАЯВКУ
+                        <span class="btn-order__icon" aria-hidden="true">→</span>
+                    </a>
+                    <a href="/catalog" class="btn btn-outline btn-catalog">КАТАЛОГ ПРОДУКЦИИ</a>
                 </div>
                 <div class="hero-products__stats">
                     <div class="stat-item">
@@ -167,18 +194,27 @@ if (empty($popular_products)) {
                 
                 <div class="categories__grid">
                     <div class="category-card category-card--gradient-1">
+                        <div class="category-card__image">
+                            <img src="products/MASTERPRO.png" alt="Медикаторы Master Pro">
+                        </div>
                         <h3 class="category-card__title">Медикаторы Master Pro</h3>
                         <p class="category-card__desc">Профессиональные медикаторы для крупных хозяйств с высокой производительностью</p>
                         <a href="/catalog" class="category-card__link">Перейти в каталог →</a>
                     </div>
 
                     <div class="category-card category-card--gradient-2">
+                        <div class="category-card__image">
+                            <img src="products/Dosatron.png" alt="Медикаторы Dosatron">
+                        </div>
                         <h3 class="category-card__title">Медикаторы Dosatron</h3>
                         <p class="category-card__desc">Французские дозаторы с мировым именем — точность и надёжность</p>
                         <a href="/catalog" class="category-card__link">Перейти в каталог →</a>
                     </div>
 
                     <div class="category-card category-card--gradient-3">
+                        <div class="category-card__image">
+                            <img src="products/Mixrite.png" alt="Медикаторы MixRite">
+                        </div>
                         <h3 class="category-card__title">Медикаторы MixRite</h3>
                         <p class="category-card__desc">Израильские медикаторы для интенсивного животноводства и птицеводства</p>
                         <a href="/catalog" class="category-card__link">Перейти в каталог →</a>
@@ -191,7 +227,7 @@ if (empty($popular_products)) {
     <div class="container">
         <div class="advantages__head">
             <h1 class="section-title">ПОЧЕМУ ВЫБИРАЮТ <br> <span class="gradient-text">НАШИ ДОЗАТОРЫ</span></h1>
-            <a href="/contacts" class="advantages-calc-btn">Получить расчет <span>→</span></a>
+            <a href="#" class="advantages-calc-btn open-modal-form" data-form="advantages">Получить расчет <span>→</span></a>
         </div>
         
         <div class="advantages__grid">
@@ -286,7 +322,7 @@ if (empty($popular_products)) {
                     <input type="text" name="name" placeholder="Ваше имя" required>
                     <input type="tel" name="phone" placeholder="Ваш телефон" required>
                     <input type="hidden" name="form_type" value="Расчёт стоимости">
-                    <button type="submit" class="calc-btn-row">ОСТАВИТЬ ЗАЯВКУ →</button>
+                    <button type="submit" class="calc-btn-row">ОСТАВИТЬ ЗАЯВКУ</button>
                 </form>
             </div>
         </div>
@@ -377,7 +413,7 @@ if (empty($popular_products)) {
             <?php endif; ?>
         </div>
         <div class="text-center">
-            <a href="/catalog" class="btn btn-large">Весь каталог →</a>
+            <a href="/catalog" class="btn btn-large">Весь каталог</a>
         </div>
     </div>
 </section>
@@ -483,6 +519,13 @@ if (empty($popular_products)) {
                         <label>Сообщение</label>
                         <textarea name="message" rows="4" placeholder="Опишите ваш запрос..."></textarea>
                     </div>
+                    <label class="form-consent form-consent--dark">
+                        <input type="checkbox" class="form-consent__check" required>
+                        <span>
+                            Отправляя запрос, я соглашаюсь с
+                            <a href="/privacy">правилами обработки персональных данных</a>.
+                        </span>
+                    </label>
                     <input type="hidden" name="form_type" value="Свяжитесь с нами">
                     <button type="submit" class="contact-btn">ОТПРАВИТЬ ЗАЯВКУ</button>
                 </form>

@@ -25,19 +25,19 @@ if (isset($mysqli) && $mysqli instanceof mysqli) {
                 <button type="button" class="header-burger-btn" id="headerBurgerBtn" aria-label="Открыть меню" aria-expanded="false">
                     ☰
                 </button>
-                <a href="/" class="logo">
-                    <span class="logo__text"><?= htmlspecialchars($siteSettings['header']['brand_name']) ?></span>
-                </a>
+            <a href="/" class="logo">
+                <span class="logo__img">
+                    <img src="products/icon.png" alt="Medikator.ru">
+                </span>
+            </a>
             </div>
 
             <nav class="nav" id="siteMainNav">
                 <button type="button" class="header-nav-close" id="headerNavClose" aria-label="Закрыть меню">×</button>
-                <ul class="nav__list">
-                    <li class="nav__item"><a href="/" class="nav__link">Главная</a></li>
-                    <li class="nav__item nav-catalog">
-                        <button type="button" class="nav__link nav-catalog__toggle" id="headerCatalogToggle" aria-expanded="false">
+                <ul class="nav__list">                    <li class="nav__item nav-catalog">
+                        <a href="/catalog" class="nav__link nav-catalog__toggle" id="headerCatalogToggle" aria-expanded="false">
                             Каталог <span class="nav-catalog__arrow">▾</span>
-                        </button>
+                        </a>
                         <ul class="nav-catalog__dropdown" id="headerCatalogDropdown">
                             <li><a href="/catalog">Все товары</a></li>
                             <?php foreach ($headerCatalogFilters as $f): ?>
@@ -93,6 +93,13 @@ if (isset($mysqli) && $mysqli instanceof mysqli) {
                 <input type="text" name="name" placeholder="Ваше имя" required>
                 <input type="tel" name="phone" placeholder="Ваш телефон" required>
                 <textarea name="message" rows="4" placeholder="Сообщение (необязательно)"></textarea>
+                <label class="form-consent">
+                    <input type="checkbox" class="form-consent__check" required>
+                    <span>
+                        Отправляя запрос, я соглашаюсь с
+                        <a href="/privacy">правилами обработки персональных данных</a>.
+                    </span>
+                </label>
                 <input type="hidden" name="form_type" value="Модальная форма в хедере">
                 <button type="submit" class="btn btn-primary header-lead-form__submit">Отправить</button>
             </form>
@@ -104,3 +111,4 @@ if (isset($mysqli) && $mysqli instanceof mysqli) {
     <script src="js/header.js" defer></script>
     <script src="js/compare-storage.js" defer></script>
     <script src="js/cart-storage.js" defer></script>
+    <script src="js/phone-mask.js" defer></script>

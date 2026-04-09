@@ -64,6 +64,7 @@
   display: flex;
   gap: 40px;
   margin-bottom: 40px;
+  margin-top: 40px;
   flex-wrap: wrap;
 }
 
@@ -75,7 +76,7 @@
   display: block;
   font-size: 32px;
   font-weight: 800;
-  color: var(--color-accent);
+  color:#1e293b;
   line-height: 1.2;
 }
 
@@ -94,11 +95,13 @@
   background: var(--gradient-accent);
   color: white;
   padding: 14px 32px;
-  border-radius: 40px;
+  border-radius: 12px;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.3s;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .btn-order:hover {
@@ -106,22 +109,36 @@
   box-shadow: 0 10px 25px rgba(249, 115, 22, 0.3);
 }
 
+.btn-order__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  background: #e86a2b;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1;
+}
+
 .btn-outline {
-  background: transparent;
-  color: var(--color-accent);
   padding: 14px 32px;
-  border-radius: 40px;
+  border-radius: 12px;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.3s;
   display: inline-block;
-  border: 2px solid var(--color-accent);
+  border: 2px solid #f45b2c;
+  color: #1e293b;
+  background: transparent;
 }
 
 .btn-outline:hover {
-  background: var(--color-accent);
+  background: linear-gradient(135deg, #F45B2C, #FD9474);
   color: white;
   transform: translateY(-2px);
+  border-color: white;
 }
 
 .hero-products__image {
@@ -173,6 +190,23 @@
 .category-card--gradient-3 {
   background: linear-gradient(135deg, #A6C1EA, #BCD2E9);
   color: #1e293b;
+}
+
+.category-card__image {
+  height: 180px;
+  border-radius: 16px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+
+.category-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .category-card__title {
@@ -232,7 +266,7 @@
   gap: 10px;
   background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 999px;
+  border-radius: 12px;
   padding: 10px 14px 10px 18px;
   text-decoration: none;
   color: #111827;
@@ -247,9 +281,13 @@
   justify-content: center;
   width: 22px;
   height: 22px;
-  border-radius: 999px;
+  border-radius: 8px;
   background: var(--gradient-accent);
   color: #fff;
+}
+.advantages-calc-btn:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .advantage-card {
@@ -430,7 +468,7 @@
   max-width: 250px;
   padding: 14px 20px;
   border: 1px solid #334155;
-  border-radius: 60px;
+  border-radius: 12px;
   font-size: 15px;
   font-family: inherit;
   background: #1e293b;
@@ -450,7 +488,7 @@
 .calc-btn-row {
   padding: 14px 28px;
   border: none;
-  border-radius: 60px;
+  border-radius: 12px;
   font-size: 15px;
   font-weight: 700;
   font-family: inherit;

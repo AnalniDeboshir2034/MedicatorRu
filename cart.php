@@ -31,7 +31,8 @@ if ($result && $result->num_rows > 0) {
     <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Корзина | 7company</title>
+    <link rel="icon" href="/products/favico.png">
+    <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/cart.css">
 </head>
@@ -66,12 +67,19 @@ if ($result && $result->num_rows > 0) {
         <div class="cart-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="cartCheckoutTitle">
             <button type="button" class="cart-modal__close" id="cart-checkout-close" aria-label="Закрыть форму">&times;</button>
             <h3 id="cartCheckoutTitle">Оформление заказа</h3>
-            <p>Оставьте контакты, отправим заявку в Bitrix.</p>
+            <p>Оставьте контакты, и мы вам позвоним.</p>
 
             <form id="cart-checkout-form" class="cart-checkout-form">
                 <input type="text" name="name" placeholder="Ваше имя" required>
                 <input type="tel" name="phone" placeholder="Ваш телефон" required>
                 <textarea name="message" rows="4" placeholder="Комментарий к заказу"></textarea>
+                <label class="form-consent">
+                    <input type="checkbox" class="form-consent__check" required>
+                    <span>
+                        Отправляя запрос, я соглашаюсь с
+                        <a href="/privacy">правилами обработки персональных данных</a>.
+                    </span>
+                </label>
                 <input type="hidden" name="form_type" value="Оформление заказа из корзины">
                 <button type="submit" class="btn btn-primary">Отправить заказ</button>
             </form>

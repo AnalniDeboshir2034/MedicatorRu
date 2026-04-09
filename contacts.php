@@ -74,7 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>7company - Контакты</title>
+    <link rel="icon" href="/products/favico.png">
+    <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
     <link rel="stylesheet" href="css/style.css?v=<?= time() ?>">
     <link rel="stylesheet" href="css/contacts.css?v=<?= time() ?>">
 </head>
@@ -157,6 +158,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                                 <label>Сообщение</label>
                                 <textarea name="message" rows="4" placeholder="Опишите ваш запрос..."><?= htmlspecialchars($form_data['message'] ?? '') ?></textarea>
                             </div>
+                            <label class="form-consent">
+                                <input type="checkbox" class="form-consent__check" required>
+                                <span>
+                                    Отправляя запрос, я соглашаюсь с
+                                    <a href="/privacy">правилами обработки персональных данных</a>.
+                                </span>
+                            </label>
                             <button type="submit" class="submit-btn">ОТПРАВИТЬ ЗАЯВКУ →</button>
                         </form>
                     </div>
@@ -283,7 +291,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                     });
                     
                     const marker = new ymaps.Placemark(coordinates, {
-                        balloonContentHeader: '7company',
+                        balloonContentHeader: 'Medikator.ru',
                         balloonContentBody: 'г. Смоленск, 2-я Вяземская улица, д.4',
                         balloonContentFooter: 'Офис продаж'
                     }, {
