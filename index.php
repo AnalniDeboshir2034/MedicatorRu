@@ -150,7 +150,7 @@ if (empty($popular_products)) {
     <div class="container">
         <div class="hero-products__wrapper">
             <div class="hero-products__content">
-                <div class="hero-products__badge">Поставки по всей России</div>
+                <div class="hero-products__badge">Поставки по всей России,Беларуси и странам СНГ</div>
                 <h1 class="hero-products__title">
                     <?= htmlspecialchars($siteSettings['index']['hero_title_top']) ?> <br>
                    <span class="gradient-text"><?= htmlspecialchars($siteSettings['index']['hero_title_bottom']) ?></span>
@@ -172,7 +172,7 @@ if (empty($popular_products)) {
                     </div>
                     <div class="stat-item">
                         <span class="stat-value">500+</span>
-                        <span class="stat-label">хозяйств</span>
+                        <span class="stat-label">Клиентов</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-value">15</span>
@@ -300,8 +300,8 @@ if (empty($popular_products)) {
 
             <div class="step-item">
                 <div class="step-icon">5</div>
-                <h3 class="step-item__title">Оказываем услугу</h3>
-                <p class="step-item__desc">Закупаем, доставляем и при необходимости устанавливаем оборудование</p>
+                <h3 class="step-item__title">Отправляем заказ</h3>
+                <p class="step-item__desc">Доставляем и при необходимости устанавливаем оборудование</p>
             </div>
         </div>
     </div>
