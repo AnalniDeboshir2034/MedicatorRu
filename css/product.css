@@ -415,6 +415,17 @@
     border-bottom: none;
 }
 
+.spec-item--header {
+    border-bottom: 1px solid var(--color-border);
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.spec-item--header .spec-label {
+    color: var(--color-text);
+    font-weight: 700;
+}
+
 .spec-label {
     font-size: 14px;
     color: var(--color-text-muted);

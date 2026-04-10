@@ -170,6 +170,10 @@
   border-radius: 24px;
   transition: all 0.3s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
 }
 
 .category-card:hover {
@@ -210,9 +214,12 @@
 }
 
 .category-card__title {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   margin-bottom: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .category-card__desc {
@@ -229,6 +236,7 @@
   align-items: center;
   gap: 8px;
   transition: gap 0.3s;
+  margin-top: auto;
 }
 
 .category-card__link:hover {
@@ -265,7 +273,7 @@
   align-items: center;
   gap: 10px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 2px solid #F45B2C;
   border-radius: 12px;
   padding: 10px 14px 10px 18px;
   text-decoration: none;
@@ -311,7 +319,7 @@
 
 .advantage-card:nth-child(2),
 .advantage-card:nth-child(5) {
-  background: linear-gradient(135deg, #FE907A, #FFCDC3);
+  background: linear-gradient(135deg, #F45B2C, #FD9474);
   color: #1e293b;
 }
 
@@ -327,8 +335,21 @@
 
 .advantage-card__icon {
   font-size: 52px;
-  margin-bottom: 20px;
-  display: inline-block;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.advantage-card__icon img,
+.advantage-card__icon svg {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
   transition: transform 0.3s;
 }
 

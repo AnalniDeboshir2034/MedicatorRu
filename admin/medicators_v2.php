@@ -5,6 +5,11 @@ admin_require_auth();
 $success = '';
 $error = '';
 
+$deletedFlag = isset($_GET['deleted']) ? (int)$_GET['deleted'] : 0;
+if ($deletedFlag === 1) {
+    $success = 'Медикатор удалён';
+}
+
 $uploadDirWeb = 'products/admin_uploads';
 $uploadDirAbs = __DIR__ . '/../' . $uploadDirWeb;
 $uploadDocsWeb = 'products/admin_docs';
@@ -182,15 +187,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'medicator_delete') {
         $id = (int)($_POST['id'] ?? 0);
         if ($id > 0) {
-            $stmt = $mysqli->prepare("DELETE FROM medicator_img WHERE medicator_id=?");
-            $stmt->bind_param('i', $id);
-            $stmt->execute();
+            // Collect related file paths to delete after DB commit.
+            $pathsToDelete = [];
+            try {
+                $stmt = $mysqli->prepare("SELECT passport, user_pass FROM medicator WHERE id=? LIMIT 1");
+                $stmt->bind_param('i', $id);
+                $stmt->execute();
+                $res = $stmt->get_result();
+                $row = $res ? $res->fetch_assoc() : null;
+                $stmt->close();
+                if ($row) {
+                    if (!empty($row['passport'])) $pathsToDelete[] = (string)$row['passport'];
+                    if (!empty($row['user_pass'])) $pathsToDelete[] = (string)$row['user_pass'];
+                }
 
-            $stmt = $mysqli->prepare("DELETE FROM medicator WHERE id=?");
-            $stmt->bind_param('i', $id);
-            $stmt->execute();
+                $stmt = $mysqli->prepare("SELECT path_img FROM medicator_img WHERE medicator_id=?");
+                $stmt->bind_param('i', $id);
+                $stmt->execute();
+                $res = $stmt->get_result();
+                if ($res) {
+                    while ($r = $res->fetch_assoc()) {
+                        if (!empty($r['path_img'])) $pathsToDelete[] = (string)$r['path_img'];
+                    }
+                }
+                $stmt->close();
+            } catch (Throwable $e) {
+                // ignore file cleanup prefetch errors
+            }
 
-            $success = 'Медикатор удалён';
+            $mysqli->begin_transaction();
+            try {
+                $stmt = $mysqli->prepare("DELETE FROM medicator_view WHERE medicator_id=?");
+                $stmt->bind_param('i', $id);
+                $stmt->execute();
+                $stmt->close();
+
+                $stmt = $mysqli->prepare("DELETE FROM medicator_img WHERE medicator_id=?");
+                $stmt->bind_param('i', $id);
+                $stmt->execute();
+                $stmt->close();
+
+                $stmt = $mysqli->prepare("DELETE FROM medicator WHERE id=?");
+                $stmt->bind_param('i', $id);
+                $stmt->execute();
+                $stmt->close();
+
+                $mysqli->commit();
+
+                // Remove related files (images/docs) from disk after successful DB commit.
+                $projectRoot = realpath(__DIR__ . '/../');
+                foreach ($pathsToDelete as $relPath) {
+                    $relPath = ltrim((string)$relPath, "/\\");
+                    if ($relPath === '' || strpos($relPath, '..') !== false) continue;
+
+                    // Only delete files that belong to our upload folders.
+                    $isUpload = (strpos($relPath, 'products/admin_uploads/') === 0) || (strpos($relPath, 'products/admin_docs/') === 0);
+                    if (!$isUpload) continue;
+
+                    $abs = $projectRoot . DIRECTORY_SEPARATOR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relPath);
+                    if (is_file($abs)) {
+                        @unlink($abs);
+                    }
+                }
+
+                header('Location: ' . $_SERVER['PHP_SELF'] . '?deleted=1');
+                exit;
+            } catch (Throwable $e) {
+                $mysqli->rollback();
+                $error = 'Ошибка удаления: ' . $e->getMessage();
+            }
         }
     }
 

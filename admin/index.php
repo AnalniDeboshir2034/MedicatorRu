@@ -22,7 +22,6 @@ if (empty($_SESSION['is_admin'])) {
     <body>
         <div class="box">
             <h2>Вход в админ-панель</h2>
-            <p>Логин: <b>admin</b>, пароль: <b>admin123</b></p>
             <?php if ($error): ?><p class="err"><?= htmlspecialchars($error) ?></p><?php endif; ?>
             <form method="post">
                 <input type="hidden" name="admin_login" value="1">

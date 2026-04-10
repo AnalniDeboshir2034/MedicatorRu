@@ -7,7 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
             var parsed = raw ? JSON.parse(raw) : [];
             if (!Array.isArray(parsed)) return [];
             return parsed
-                .filter(function (item) { return item && item.id; })
+                .filter(function (item) {
+                    return item && item.id !== undefined && item.id !== null && String(item.id) !== '';
+                })
                 .map(function (item) {
                     return {
                         id: String(item.id),

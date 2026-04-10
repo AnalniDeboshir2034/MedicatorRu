@@ -50,6 +50,7 @@
     width: 100%;
     min-width: 760px;
     border-collapse: collapse;
+    margin-bottom: 20px;
 }
 
 .compare-table th,

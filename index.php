@@ -193,32 +193,32 @@ if (empty($popular_products)) {
                 <p class="section-subtitle">Подберите медикатор-дозатор под задачи вашего хозяйства</p>
                 
                 <div class="categories__grid">
-                    <div class="category-card category-card--gradient-1">
+                    <a href="/catalog#cat=masterpro" class="category-card category-card--gradient-1">
                         <div class="category-card__image">
                             <img src="products/MASTERPRO.png" alt="Медикаторы Master Pro">
                         </div>
                         <h3 class="category-card__title">Медикаторы Master Pro</h3>
                         <p class="category-card__desc">Профессиональные медикаторы для крупных хозяйств с высокой производительностью</p>
-                        <a href="/catalog" class="category-card__link">Перейти в каталог →</a>
-                    </div>
+                        <span class="category-card__link">Перейти в каталог →</span>
+                    </a>
 
-                    <div class="category-card category-card--gradient-2">
+                    <a href="/catalog#cat=dosatron" class="category-card category-card--gradient-2">
                         <div class="category-card__image">
                             <img src="products/Dosatron.png" alt="Медикаторы Dosatron">
                         </div>
                         <h3 class="category-card__title">Медикаторы Dosatron</h3>
                         <p class="category-card__desc">Французские дозаторы с мировым именем — точность и надёжность</p>
-                        <a href="/catalog" class="category-card__link">Перейти в каталог →</a>
-                    </div>
+                        <span class="category-card__link">Перейти в каталог →</span>
+                    </a>
 
-                    <div class="category-card category-card--gradient-3">
+                    <a href="/catalog#cat=mixrite" class="category-card category-card--gradient-3">
                         <div class="category-card__image">
                             <img src="products/Mixrite.png" alt="Медикаторы MixRite">
                         </div>
                         <h3 class="category-card__title">Медикаторы MixRite</h3>
                         <p class="category-card__desc">Израильские медикаторы для интенсивного животноводства и птицеводства</p>
-                        <a href="/catalog" class="category-card__link">Перейти в каталог →</a>
-                    </div>
+                        <span class="category-card__link">Перейти в каталог →</span>
+                    </a>
                 </div>
             </div>
         </section>

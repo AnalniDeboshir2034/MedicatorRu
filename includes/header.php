@@ -45,8 +45,8 @@ if (isset($mysqli) && $mysqli instanceof mysqli) {
                             <?php endforeach; ?>
                         </ul>
                     </li>
+                    <li class="nav__item"><a href="/compare" class="nav__link nav__link--compare">Сравнение <span class="nav-cart-count" data-compare-count>0</span></a></li>
                     <li class="nav__item"><a href="/contacts" class="nav__link">Контакты</a></li>
-                    <li class="nav__item"><a href="/compare" class="nav__link">Сравнение <span  class="nav-cart-count" data-compare-count>0</span></a></li>
                 </ul>
             </nav>
 
@@ -71,6 +71,7 @@ if (isset($mysqli) && $mysqli instanceof mysqli) {
         </div>
     </div>
 </header>
+<div class="header-spacer" aria-hidden="true"></div>
 <div class="header-menu-overlay" id="headerMenuOverlay" aria-hidden="true"></div>
 <div class="header-search-modal" id="headerSearchModal" aria-hidden="true">
     <div class="header-search-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="headerSearchModalTitle">

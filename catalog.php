@@ -1,5 +1,6 @@
 <?php 
 require_once 'includes/config.php';
+require_once __DIR__ . '/includes/water_treatment.php';
 
 if (!$mysqli || $mysqli->connect_error) {
     die("❌ Нет соединения с БД");
@@ -49,6 +50,13 @@ while ($row = $result->fetch_assoc()) {
     $products[] = $row;
 }
 
+$waterTreatmentProduct = load_water_treatment_product();
+if (is_array($waterTreatmentProduct)) {
+    $waterTreatmentProduct['filter_slug'] = 'uzel-vodopodgotovki';
+    $waterTreatmentProduct['subfilter_slug'] = 'uzel-vodopodgotovki';
+    $products[] = $waterTreatmentProduct;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -94,6 +102,18 @@ while ($row = $result->fetch_assoc()) {
                 <div class="catalog-grid">
                     <aside class="catalog-filters" id="catalogFiltersPanel">
                         <button class="catalog-filters__close" id="catalogFiltersClose" type="button" aria-label="Закрыть фильтры">×</button>
+                        <div class="filter-group">
+                            <button class="filter-dropdown" data-filter="uzel-vodopodgotovki">
+                                Узел водоподготовки
+                                <span class="filter-arrow">▼</span>
+                            </button>
+                            <div class="filter-submenu" data-submenu="uzel-vodopodgotovki">
+                                <label>
+                                    <input type="checkbox" value="uzel-vodopodgotovki" data-category="all">
+                                    Узел водоподготовки
+                                </label>
+                            </div>
+                        </div>
                         <?php if (!empty($subfilters)): ?>
                             <?php 
                             $current_filter = null;
@@ -113,6 +133,7 @@ while ($row = $result->fetch_assoc()) {
                                 $current_filter = $subfilter['filter_name'];
                                 endif; 
                                 ?>
+                                <?php if (($subfilter['subfilter_slug'] ?? '') === 'uzel-vodopodgotovki' || ($subfilter['subfilter_slug'] ?? '') === 'water-treatment') { continue; } ?>
                                 <label>
                                     <input type="checkbox" value="<?= htmlspecialchars($subfilter['subfilter_slug']) ?>" 
                                            data-category="<?= htmlspecialchars($subfilter['filter_slug']) ?>">
@@ -136,6 +157,7 @@ while ($row = $result->fetch_assoc()) {
                         <div class="products-grid" id="products-grid">
                             <?php if (!empty($products)): ?>
                                 <?php foreach ($products as $product): ?>
+                                <?php $isWaterTreatment = ($product['type'] ?? '') === 'water-treatment'; ?>
                                 <div class="product-card" data-category="<?= htmlspecialchars($product['filter_slug'] ?? '') ?>" 
                                      data-subcategory="<?= htmlspecialchars($product['subfilter_slug'] ?? $product['filtr']) ?>">
                                     <div class="product-card__content">
@@ -146,7 +168,18 @@ while ($row = $result->fetch_assoc()) {
                                         </a>
                                         <?php endif; ?>
                                         <h3 class="product-title"><a href="/product/<?= rawurlencode($product['slug']) ?>"><?= htmlspecialchars($product['name']) ?></a></h3>
-                                        <p class="product-desc"><?= htmlspecialchars($product['filtr']) ?></p>
+                                        <?php
+                                            $waterDescription = (string)($product['opis'] ?? '');
+                                            if ($isWaterTreatment && $waterDescription !== '') {
+                                                $waterDescription = function_exists('mb_substr')
+                                                    ? mb_substr($waterDescription, 0, 120, 'UTF-8')
+                                                    : substr($waterDescription, 0, 120);
+                                                $waterDescription .= '...';
+                                            }
+                                        ?>
+                                        <p class="product-desc">
+                                            <?= htmlspecialchars($isWaterTreatment ? $waterDescription : ($product['filtr'] ?? '')) ?>
+                                        </p>
                                         
                                         <div class="product-specs">
                                             <?php if (!empty($product['d_dosing'])): ?>
@@ -160,18 +193,27 @@ while ($row = $result->fetch_assoc()) {
                                             <?php endif; ?>
                                         </div>
 
-                                        <div class="product-actions">
-                                            <button
-                                                type="button"
-                                                class="product-btn product-btn--compare"
-                                                data-compare-id="<?= (int)$product['id'] ?>"
-                                            > В сравнение</button>
-                                            <button
-                                                type="button"
-                                                class="product-btn product-btn--cart"
-                                                data-cart-add
-                                                data-cart-id="<?= (int)$product['id'] ?>">
-                                                В корзину</button>
+                                        <div class="product-actions<?= $isWaterTreatment ? ' product-actions--single' : '' ?>">
+                                            <?php if (!$isWaterTreatment): ?>
+                                                <button
+                                                    type="button"
+                                                    class="product-btn product-btn--compare"
+                                                    data-compare-id="<?= (int)$product['id'] ?>"
+                                                > В сравнение</button>
+                                                <button
+                                                    type="button"
+                                                    class="product-btn product-btn--cart"
+                                                    data-cart-add
+                                                    data-cart-id="<?= (int)$product['id'] ?>">
+                                                    В корзину</button>
+                                            <?php else: ?>
+                                                <button
+                                                    type="button"
+                                                    class="product-btn product-btn--cart"
+                                                    data-cart-add
+                                                    data-cart-id="0">
+                                                    В корзину</button>
+                                            <?php endif; ?>
                                             <button type="button" class="product-btn product-btn--details" data-href="/product/<?= rawurlencode($product['slug']) ?>">Подробнее</button>
                                         </div>
                                     </div>

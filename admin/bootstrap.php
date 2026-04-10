@@ -4,9 +4,6 @@ session_start();
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/site_settings.php';
 
-$adminLogin = 'admin';
-$adminPassword = 'admin123';
-
 function admin_req($key)
 {
     return trim($_POST[$key] ?? '');
@@ -14,6 +11,7 @@ function admin_req($key)
 
 if (isset($_POST['admin_logout'])) {
     unset($_SESSION['is_admin']);
+    unset($_SESSION['admin_login']);
     header('Location: index.php');
     exit;
 }
@@ -21,8 +19,18 @@ if (isset($_POST['admin_logout'])) {
 if (isset($_POST['admin_login'])) {
     $login = trim($_POST['login'] ?? '');
     $password = trim($_POST['password'] ?? '');
-    if ($login === $adminLogin && $password === $adminPassword) {
+
+    // Простой вход: проверяем login/password напрямую в БД.
+    $stmt = $mysqli->prepare("SELECT login FROM `user` WHERE login = ? AND password = ? LIMIT 1");
+    $stmt->bind_param('ss', $login, $password);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $user = $res ? $res->fetch_assoc() : null;
+    $stmt->close();
+
+    if ($user) {
         $_SESSION['is_admin'] = true;
+        $_SESSION['admin_login'] = $user['login'] ?? $login;
         header('Location: index.php');
         exit;
     }

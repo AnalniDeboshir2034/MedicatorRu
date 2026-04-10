@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+    var headerEl = document.querySelector('.header');
+    var headerSpacer = document.querySelector('.header-spacer');
     var burgerBtn = document.getElementById('headerBurgerBtn');
     var nav = document.getElementById('siteMainNav');
     var menuOverlay = document.getElementById('headerMenuOverlay');
@@ -18,6 +20,13 @@ document.addEventListener('DOMContentLoaded', function () {
     var closeBtn = document.querySelector('[data-lead-close]');
     var form = document.getElementById('headerLeadForm');
     var status = document.getElementById('headerLeadStatus');
+
+    function syncHeaderSpacerHeight() {
+        if (!headerEl || !headerSpacer) return;
+        headerSpacer.style.height = headerEl.offsetHeight + 'px';
+    }
+    syncHeaderSpacerHeight();
+    window.addEventListener('resize', syncHeaderSpacerHeight);
 
     function closeMenu() {
         if (!nav || !burgerBtn) return;

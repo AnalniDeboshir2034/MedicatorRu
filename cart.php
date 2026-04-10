@@ -1,5 +1,8 @@
 <?php
 require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/site_settings.php';
+require_once __DIR__ . '/includes/water_treatment.php';
+$siteSettings = load_site_settings();
 
 if (!$mysqli || $mysqli->connect_error) {
     die("Нет соединения с БД");
@@ -24,6 +27,17 @@ if ($result && $result->num_rows > 0) {
         ];
     }
 }
+
+$waterTreatmentProduct = load_water_treatment_product();
+if (is_array($waterTreatmentProduct)) {
+    $products[] = [
+        'id' => 0,
+        'slug' => $waterTreatmentProduct['slug'] ?? 'water-treatment',
+        'name' => $waterTreatmentProduct['name'] ?? 'Узел водоподготовки',
+        'image' => $waterTreatmentProduct['main_img'] ?? '',
+        'series' => 'Узел водоподготовки',
+    ];
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -40,6 +54,18 @@ if ($result && $result->num_rows > 0) {
     <?php require_once __DIR__ . '/includes/header.php'; ?>
 
     <main class="main cart-page">
+        <section class="cart-print-header" aria-hidden="true">
+            <div class="container">
+                <div class="cart-print-brand">
+                    <img src="/products/icon.png" alt="Medikator.ru">
+                    <h1>Заказ Medikator.ru</h1>
+                </div>
+                <div class="cart-print-contacts">
+                    <span>Телефон: <?= htmlspecialchars($siteSettings['contacts']['phone'] ?? '') ?></span>
+                    <span>Email: <?= htmlspecialchars($siteSettings['contacts']['email'] ?? '') ?></span>
+                </div>
+            </div>
+        </section>
         <section class="cart-section">
             <div class="container">
                 <h1 class="cart-title">Корзина</h1>

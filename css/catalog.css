@@ -353,6 +353,10 @@
     color: #f97316;
 }
 
+.product-actions--single .product-btn {
+    flex: 1 1 100%;
+}
+
 .product-btn--compare {
     color: #f97316;
 }

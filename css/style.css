@@ -106,9 +106,16 @@ body {
 .header {
   background-color: var(--color-surface);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
+}
+
+.header-spacer {
+  display: block;
+  height: 0;
 }
 
 .header__inner {
@@ -325,6 +332,13 @@ body {
   align-items: center;
   justify-content: center;
   padding: 0 4px;
+}
+
+.nav__link--compare {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding-right: 12px;
 }
 
 .nav-catalog__arrow {
@@ -973,6 +987,11 @@ body {
 
   .nav__link--icon .nav-cart-count {
     position: static;
+  }
+
+  .nav__link--compare .nav-cart-count {
+    position: static;
+    margin-left: 8px;
   }
 
   .header-menu-overlay {
