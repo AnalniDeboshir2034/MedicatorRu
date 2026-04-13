@@ -57,12 +57,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (index !== -1) {
             ids.splice(index, 1);
+            if (window.AppToast && typeof window.AppToast.show === 'function') {
+                window.AppToast.show('Товар убран из сравнения');
+            }
         } else {
             if (ids.length >= MAX_COMPARE) {
-                alert('Можно сравнить максимум 4 товара');
+                if (window.AppToast && typeof window.AppToast.show === 'function') {
+                    window.AppToast.show('Можно сравнить максимум 4 товара', 'error');
+                } else {
+                    alert('Можно сравнить максимум 4 товара');
+                }
                 return;
             }
             ids.push(id);
+            if (window.AppToast && typeof window.AppToast.show === 'function') {
+                window.AppToast.show('Товар добавлен в сравнение', 'success');
+            }
         }
 
         saveIds(ids);

@@ -89,68 +89,58 @@ function admin_save_uploaded_pdf($fileField, $uploadDocsAbs, $uploadDocsWeb)
     return $uploadDocsWeb . '/' . $safeName;
 }
 
+function admin_prepare_or_throw($mysqli, $sql)
+{
+    $stmt = $mysqli->prepare($sql);
+    if (!$stmt) {
+        throw new RuntimeException('Ошибка подготовки SQL: ' . $mysqli->error);
+    }
+    return $stmt;
+}
+
+function admin_table_exists($mysqli, $tableName)
+{
+    $stmt = admin_prepare_or_throw($mysqli, 'SHOW TABLES LIKE ?');
+    $stmt->bind_param('s', $tableName);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $exists = $res && $res->num_rows > 0;
+    $stmt->close();
+    return $exists;
+}
+
+function admin_column_exists($mysqli, $tableName, $columnName)
+{
+    $stmt = admin_prepare_or_throw($mysqli, "SHOW COLUMNS FROM `{$tableName}` LIKE ?");
+    $stmt->bind_param('s', $columnName);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    $exists = $res && $res->num_rows > 0;
+    $stmt->close();
+    return $exists;
+}
+
+$medicatorHasSlug = false;
+try {
+    $medicatorHasSlug = admin_column_exists($mysqli, 'medicator', 'slug');
+} catch (Throwable $e) {
+    $medicatorHasSlug = false;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
 
     if ($action === 'medicator_create') {
-        $name = admin_req('name');
-        $filtr = admin_req('filtr');
-        $slugInput = admin_req('slug');
-        $slug = $slugInput !== '' ? admin_sanitize_slug($slugInput) : admin_sanitize_slug(slugify_ru_to_en($name, 'product'));
-        $slug = admin_ensure_unique_slug($mysqli, 'medicator', $slug, null);
-
-        $passportLink = admin_req('passport');
-        $userPassLink = admin_req('user_pass');
-        $passportUploaded = admin_save_uploaded_pdf(isset($_FILES['passport_file']) ? $_FILES['passport_file'] : [], $uploadDocsAbs, $uploadDocsWeb);
-        $userPassUploaded = admin_save_uploaded_pdf(isset($_FILES['user_pass_file']) ? $_FILES['user_pass_file'] : [], $uploadDocsAbs, $uploadDocsWeb);
-        if ($passportUploaded !== '') {
-            $passportLink = $passportUploaded;
-        }
-        if ($userPassUploaded !== '') {
-            $userPassLink = $userPassUploaded;
-        }
-
-        $sql = "INSERT INTO medicator (name,d_dosing,performance,pressure,temperature,connections,m_seal,m_case,dop,passport,user_pass,opis,filtr,slug)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param(
-            'ssssssssssssss',
-            $name,
-            admin_req('d_dosing'),
-            admin_req('performance'),
-            admin_req('pressure'),
-            admin_req('temperature'),
-            admin_req('connections'),
-            admin_req('m_seal'),
-            admin_req('m_case'),
-            admin_req('dop'),
-            $passportLink,
-            $userPassLink,
-            admin_req('opis'),
-            $filtr,
-            $slug
-        );
-        $stmt->execute();
-        $success = 'Медикатор создан';
-    }
-
-    if ($action === 'medicator_update') {
-        $id = (int)($_POST['id'] ?? 0);
-        if ($id > 0) {
+        try {
             $name = admin_req('name');
             $filtr = admin_req('filtr');
-            $slugInput = admin_req('slug');
-            $slug = $slugInput !== '' ? admin_sanitize_slug($slugInput) : admin_sanitize_slug(slugify_ru_to_en($name, 'product'));
-            $slug = admin_ensure_unique_slug($mysqli, 'medicator', $slug, $id);
+            $slug = '';
+            if ($medicatorHasSlug) {
+                $slugInput = admin_req('slug');
+                $slug = $slugInput !== '' ? admin_sanitize_slug($slugInput) : admin_sanitize_slug(slugify_ru_to_en($name, 'product'));
+                $slug = admin_ensure_unique_slug($mysqli, 'medicator', $slug, null);
+            }
 
-            $sql = "UPDATE medicator SET 
-                    name=?, slug=?, filtr=?, 
-                    d_dosing=?, performance=?, pressure=?, temperature=?,
-                    connections=?, m_seal=?, m_case=?, dop=?,
-                    passport=?, user_pass=?, opis=?
-                    WHERE id=?";
-            $stmt = $mysqli->prepare($sql);
-            $opis = admin_req('opis');
             $passportLink = admin_req('passport');
             $userPassLink = admin_req('user_pass');
             $passportUploaded = admin_save_uploaded_pdf(isset($_FILES['passport_file']) ? $_FILES['passport_file'] : [], $uploadDocsAbs, $uploadDocsWeb);
@@ -161,26 +151,142 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($userPassUploaded !== '') {
                 $userPassLink = $userPassUploaded;
             }
-            $stmt->bind_param(
-                str_repeat('s', 14) . 'i',
-                $name,
-                $slug,
-                $filtr,
-                admin_req('d_dosing'),
-                admin_req('performance'),
-                admin_req('pressure'),
-                admin_req('temperature'),
-                admin_req('connections'),
-                admin_req('m_seal'),
-                admin_req('m_case'),
-                admin_req('dop'),
-                $passportLink,
-                $userPassLink,
-                $opis,
-                $id
-            );
+
+            if ($medicatorHasSlug) {
+                $sql = "INSERT INTO medicator (name,d_dosing,performance,pressure,temperature,connections,m_seal,m_case,dop,passport,user_pass,opis,filtr,slug)
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                $stmt = admin_prepare_or_throw($mysqli, $sql);
+                $stmt->bind_param(
+                    'ssssssssssssss',
+                    $name,
+                    admin_req('d_dosing'),
+                    admin_req('performance'),
+                    admin_req('pressure'),
+                    admin_req('temperature'),
+                    admin_req('connections'),
+                    admin_req('m_seal'),
+                    admin_req('m_case'),
+                    admin_req('dop'),
+                    $passportLink,
+                    $userPassLink,
+                    admin_req('opis'),
+                    $filtr,
+                    $slug
+                );
+            } else {
+                $sql = "INSERT INTO medicator (name,d_dosing,performance,pressure,temperature,connections,m_seal,m_case,dop,passport,user_pass,opis,filtr)
+                        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                $stmt = admin_prepare_or_throw($mysqli, $sql);
+                $stmt->bind_param(
+                    'sssssssssssss',
+                    $name,
+                    admin_req('d_dosing'),
+                    admin_req('performance'),
+                    admin_req('pressure'),
+                    admin_req('temperature'),
+                    admin_req('connections'),
+                    admin_req('m_seal'),
+                    admin_req('m_case'),
+                    admin_req('dop'),
+                    $passportLink,
+                    $userPassLink,
+                    admin_req('opis'),
+                    $filtr
+                );
+            }
+
             $stmt->execute();
-            $success = 'Медикатор обновлён';
+            $stmt->close();
+            $success = 'Медикатор создан';
+        } catch (Throwable $e) {
+            $error = 'Ошибка создания: ' . $e->getMessage();
+        }
+    }
+
+    if ($action === 'medicator_update') {
+        $id = (int)($_POST['id'] ?? 0);
+        if ($id > 0) {
+            try {
+                $name = admin_req('name');
+                $filtr = admin_req('filtr');
+                $slug = '';
+                if ($medicatorHasSlug) {
+                    $slugInput = admin_req('slug');
+                    $slug = $slugInput !== '' ? admin_sanitize_slug($slugInput) : admin_sanitize_slug(slugify_ru_to_en($name, 'product'));
+                    $slug = admin_ensure_unique_slug($mysqli, 'medicator', $slug, $id);
+                }
+
+                $opis = admin_req('opis');
+                $passportLink = admin_req('passport');
+                $userPassLink = admin_req('user_pass');
+                $passportUploaded = admin_save_uploaded_pdf(isset($_FILES['passport_file']) ? $_FILES['passport_file'] : [], $uploadDocsAbs, $uploadDocsWeb);
+                $userPassUploaded = admin_save_uploaded_pdf(isset($_FILES['user_pass_file']) ? $_FILES['user_pass_file'] : [], $uploadDocsAbs, $uploadDocsWeb);
+                if ($passportUploaded !== '') {
+                    $passportLink = $passportUploaded;
+                }
+                if ($userPassUploaded !== '') {
+                    $userPassLink = $userPassUploaded;
+                }
+
+                if ($medicatorHasSlug) {
+                    $sql = "UPDATE medicator SET 
+                            name=?, slug=?, filtr=?, 
+                            d_dosing=?, performance=?, pressure=?, temperature=?,
+                            connections=?, m_seal=?, m_case=?, dop=?,
+                            passport=?, user_pass=?, opis=?
+                            WHERE id=?";
+                    $stmt = admin_prepare_or_throw($mysqli, $sql);
+                    $stmt->bind_param(
+                        str_repeat('s', 14) . 'i',
+                        $name,
+                        $slug,
+                        $filtr,
+                        admin_req('d_dosing'),
+                        admin_req('performance'),
+                        admin_req('pressure'),
+                        admin_req('temperature'),
+                        admin_req('connections'),
+                        admin_req('m_seal'),
+                        admin_req('m_case'),
+                        admin_req('dop'),
+                        $passportLink,
+                        $userPassLink,
+                        $opis,
+                        $id
+                    );
+                } else {
+                    $sql = "UPDATE medicator SET 
+                            name=?, filtr=?, 
+                            d_dosing=?, performance=?, pressure=?, temperature=?,
+                            connections=?, m_seal=?, m_case=?, dop=?,
+                            passport=?, user_pass=?, opis=?
+                            WHERE id=?";
+                    $stmt = admin_prepare_or_throw($mysqli, $sql);
+                    $stmt->bind_param(
+                        str_repeat('s', 13) . 'i',
+                        $name,
+                        $filtr,
+                        admin_req('d_dosing'),
+                        admin_req('performance'),
+                        admin_req('pressure'),
+                        admin_req('temperature'),
+                        admin_req('connections'),
+                        admin_req('m_seal'),
+                        admin_req('m_case'),
+                        admin_req('dop'),
+                        $passportLink,
+                        $userPassLink,
+                        $opis,
+                        $id
+                    );
+                }
+
+                $stmt->execute();
+                $stmt->close();
+                $success = 'Медикатор обновлён';
+            } catch (Throwable $e) {
+                $error = 'Ошибка обновления: ' . $e->getMessage();
+            }
         }
     }
 
@@ -217,15 +323,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $mysqli->begin_transaction();
             try {
-                $stmt = $mysqli->prepare("DELETE FROM medicator_view WHERE medicator_id=?");
-                $stmt->bind_param('i', $id);
-                $stmt->execute();
-                $stmt->close();
+                if (admin_table_exists($mysqli, 'medicator_view')) {
+                    $stmt = admin_prepare_or_throw($mysqli, "DELETE FROM medicator_view WHERE medicator_id=?");
+                    $stmt->bind_param('i', $id);
+                    $stmt->execute();
+                    $stmt->close();
+                }
 
-                $stmt = $mysqli->prepare("DELETE FROM medicator_img WHERE medicator_id=?");
-                $stmt->bind_param('i', $id);
-                $stmt->execute();
-                $stmt->close();
+                if (admin_table_exists($mysqli, 'medicator_img')) {
+                    $stmt = admin_prepare_or_throw($mysqli, "DELETE FROM medicator_img WHERE medicator_id=?");
+                    $stmt->bind_param('i', $id);
+                    $stmt->execute();
+                    $stmt->close();
+                }
 
                 $stmt = $mysqli->prepare("DELETE FROM medicator WHERE id=?");
                 $stmt->bind_param('i', $id);

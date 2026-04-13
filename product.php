@@ -178,6 +178,7 @@ if (is_array($waterTreatmentProduct) && !$isWaterTreatmentProduct) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/products/favico.png">
+    <meta name="yandex-verification" content="94250c2328fa6f0f" />
     <title><?= htmlspecialchars($product['name']) ?> | Medikator.ru</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/product.css">

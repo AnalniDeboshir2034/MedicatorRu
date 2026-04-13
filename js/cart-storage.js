@@ -107,6 +107,9 @@ document.addEventListener('DOMContentLoaded', function () {
         addItem(id, 1);
         syncButtons();
         updateCounter();
+        if (window.AppToast && typeof window.AppToast.show === 'function') {
+            window.AppToast.show('Товар добавлен в корзину', 'success');
+        }
     });
 
     window.CartStorage = {

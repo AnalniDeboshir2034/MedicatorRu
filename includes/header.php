@@ -109,7 +109,11 @@ if (isset($mysqli) && $mysqli instanceof mysqli) {
         </div>
     </div>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js" defer></script>
     <script src="js/header.js" defer></script>
     <script src="js/compare-storage.js" defer></script>
     <script src="js/cart-storage.js" defer></script>
+    <script src="js/toast.js" defer></script>
     <script src="js/phone-mask.js" defer></script>

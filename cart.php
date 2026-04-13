@@ -48,6 +48,7 @@ if (is_array($waterTreatmentProduct)) {
     <link rel="icon" href="/products/favico.png">
     <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
     <link rel="stylesheet" href="css/style.css">
+    <meta name="yandex-verification" content="94250c2328fa6f0f" />
     <link rel="stylesheet" href="css/cart.css">
     <script type="text/javascript">
     (function(m,e,t,r,i,k,a){

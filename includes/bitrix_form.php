@@ -14,8 +14,23 @@ $phone = htmlspecialchars(trim($_POST['phone'] ?? ''));
 $message = htmlspecialchars(trim($_POST['message'] ?? ''));
 $form_type = htmlspecialchars(trim($_POST['form_type'] ?? 'Контактная форма'));
 
+function is_valid_phone_prefix($phone)
+{
+    $normalized = preg_replace('/[\s\-\(\)]/', '', (string)$phone);
+    if ($normalized === '') {
+        return false;
+    }
+
+    return preg_match('/^(\+\d{6,15}|\d{6,15})$/', $normalized) === 1;
+}
+
 if (empty($name) || empty($phone)) {
     echo json_encode(['success' => false, 'message' => 'Заполните имя и телефон']);
+    exit;
+}
+
+if (!is_valid_phone_prefix($phone)) {
+    echo json_encode(['success' => false, 'message' => 'Номер телефона невалидный']);
     exit;
 }
 

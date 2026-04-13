@@ -12,6 +12,7 @@ $siteSettings = load_site_settings();
     <title>Политика обработки персональных данных | Medikator.ru</title>
     <meta name="description" content="Политика обработки персональных данных сайта Medikator.ru">
     <link rel="stylesheet" href="css/style.css">
+    <meta name="yandex-verification" content="94250c2328fa6f0f" />
     <link rel="stylesheet" href="css/privacy.css">
     <script type="text/javascript">
     (function(m,e,t,r,i,k,a){

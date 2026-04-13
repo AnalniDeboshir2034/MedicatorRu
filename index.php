@@ -13,6 +13,16 @@ $form_success = false;
 $form_error = '';
 $form_data = [];
 
+function is_valid_phone_prefix($phone)
+{
+    $normalized = preg_replace('/[\s\-\(\)]/', '', (string)$phone);
+    if ($normalized === '') {
+        return false;
+    }
+
+    return preg_match('/^(\+\d{6,15}|\d{6,15})$/', $normalized) === 1;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     $name = htmlspecialchars(trim($_POST['name'] ?? ''));
     $phone = htmlspecialchars(trim($_POST['phone'] ?? ''));
@@ -23,6 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     
     if (empty($name) || empty($phone)) {
         $form_error = 'Пожалуйста, заполните имя и телефон';
+    } elseif (!is_valid_phone_prefix($phone)) {
+        $form_error = 'Номер телефона невалидный';
     } else {
         $leadData = [
             'fields' => [
@@ -111,7 +123,7 @@ if (empty($popular_products)) {
     <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/index.css">
-    <meta name="yandex-verification" content="ff211df62d2d2555" />
+    <meta name="yandex-verification" content="94250c2328fa6f0f" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <script src="js/script.js" defer></script>
@@ -495,12 +507,21 @@ if (empty($popular_products)) {
                         <span><?= htmlspecialchars($siteSettings['contacts']['phone']) ?></span>
                     </li>
                     <li>
+                        <span class="contact-icon">📞</span>
+                        <span> +375 (33) 680-07-07</span>
+                    </li>
+
+                    <li>
                         <span class="contact-icon">📧</span>
                         <span><?= htmlspecialchars($siteSettings['contacts']['email']) ?></span>
                     </li>
                     <li>
                         <span class="contact-icon">📍</span>
                         <span><?= htmlspecialchars($siteSettings['contacts']['address']) ?></span>
+                    </li>
+                         <li>
+                        <span class="contact-icon">📍</span>
+                        <span>г. Минск, ул. Толбухина, д.2</span>
                     </li>
                 </ul>
             </div>

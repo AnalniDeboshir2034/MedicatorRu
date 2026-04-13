@@ -7,6 +7,16 @@ $form_success = false;
 $form_error = '';
 $form_data = [];
 
+function is_valid_phone_prefix($phone)
+{
+    $normalized = preg_replace('/[\s\-\(\)]/', '', (string)$phone);
+    if ($normalized === '') {
+        return false;
+    }
+
+    return preg_match('/^(\+\d{6,15}|\d{6,15})$/', $normalized) === 1;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     $name = htmlspecialchars(trim($_POST['name'] ?? ''));
     $phone = htmlspecialchars(trim($_POST['phone'] ?? ''));
@@ -17,6 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     
     if (empty($name) || empty($phone)) {
         $form_error = 'Пожалуйста, заполните имя и телефон';
+    } elseif (!is_valid_phone_prefix($phone)) {
+        $form_error = 'Номер телефона невалидный';
     } else {
         $leadData = [
             'fields' => [
@@ -78,6 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
     <link rel="stylesheet" href="css/style.css?v=<?= time() ?>">
     <link rel="stylesheet" href="css/contacts.css?v=<?= time() ?>">
+    <meta name="yandex-verification" content="94250c2328fa6f0f" />
+
     <script type="text/javascript">
     (function(m,e,t,r,i,k,a){
         m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -114,7 +128,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                         <div class="contacts-info-item">
                             <div class="contacts-info-item__title">Телефон</div>
                             <div class="contacts-info-item__value"><?= htmlspecialchars($siteSettings['contacts']['phone']) ?></div>
-                            <div class="contacts-info-item__desc">Бесплатно по России</div>
+                            <div class="contacts-info-item__desc">Вызов по России</div>
+                            <div class="contacts-info-item__value">+375 (33) 680-07-07</div>
+                            <div class="contacts-info-item__desc">Вызов по Беларуси</div>
                         </div>
                         
                         <div class="contacts-info-item">
@@ -126,6 +142,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                         <div class="contacts-info-item">
                             <div class="contacts-info-item__title">Адрес</div>
                             <div class="contacts-info-item__value"><?= htmlspecialchars($siteSettings['contacts']['address']) ?></div>
+                            <div class="contacts-info-item__desc">Офис и склад</div>
+                            <div class="contacts-info-item__value">г.Минск, ул. Толбухина, д.2</div>
                             <div class="contacts-info-item__desc">Офис и склад</div>
                         </div>
                         
@@ -149,8 +167,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                         </p>
                         <div class="contact-form-contacts">
                             <p>📞 <?= htmlspecialchars($siteSettings['contacts']['phone']) ?></p>
+                            <p>📞 +375 (33) 680-07-07</p>
                             <p>✉️ <?= htmlspecialchars($siteSettings['contacts']['email']) ?></p>
                             <p>📍 <?= htmlspecialchars($siteSettings['contacts']['address']) ?></p>
+                            <p>📍 г.Минск, ул. Толбухина, д.2</p>
                         </div>
                     </div>
                     
@@ -172,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                             </div>
                             <div class="form-field">
                                 <label>Телефон *</label>
-                                <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required value="<?= htmlspecialchars($form_data['phone'] ?? '') ?>">
+                                <input type="tel" name="phone" placeholder="(___) ___-__-__" required value="<?= htmlspecialchars($form_data['phone'] ?? '') ?>">
                             </div>
                         
                             <div class="form-field">
@@ -193,17 +213,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
             </div>
         </section>
 
-        <section class="map">
-            <div class="container">
-                <h2 class="section-title">Мы на карте</h2>
-                <div class="map-container">
-                    <div id="map"></div>
-                </div>
-                <div style="text-align: center; margin-top: 15px; color: #64748b;">
-                    <p>📍 г. Смоленск, ул. 2-я Вяземская, д.4</p>
-                </div>
-            </div>
-        </section>
+    <section class="map">
+    <div class="container">
+        <h2 class="section-title">Мы на карте</h2>
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 30px; margin-top: 15px; color: #64748b; flex-wrap: wrap;">
+            <p>📍 <strong>Россия, Смоленск:</strong> ул. 2-я Вяземская, д.4</p>
+            <p>📍 <strong>Беларусь, Минск:</strong> ул. Толбухина, д.2</p>
+        </div>
+    </div>
+</section>
 
         <section class="delivery-section">
             <div class="container">
@@ -235,120 +256,105 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                 </div>
             </div>
         </section>
-
-        <section class="requisites-section">
-            <div class="container">
-                <div class="requisites-card">
-                    <h2 class="requisites-title"><span class="gradient-text">РЕКВИЗИТЫ</span></h2>
-                    
-                    <table class="requisites-table-full">
-                        <tr>
-                            <td>Наименование</td>
-                            <td>ООО "МедикаДоз"</td>
-                        </tr>
-                        <tr>
-                            <td>ИНН</td>
-                            <td>7701234567</td>
-                        </tr>
-                        <tr>
-                            <td>КПП</td>
-                            <td>770101001</td>
-                        </tr>
-                        <tr>
-                            <td>ОГРН</td>
-                            <td>1177746123456</td>
-                        </tr>
-                        <tr>
-                            <td>Юридический адрес</td>
-                            <td>г. Москва, ул. Примерная, д. 1, оф. 101</td>
-                        </tr>
-                        <tr>
-                            <td>Р/с</td>
-                            <td>407028100000000012345</td>
-                        </tr>
-                        <tr>
-                            <td>Банк</td>
-                            <td>АО "Альфа-Банк"</td>
-                        </tr>
-                        <tr>
-                            <td>БИК</td>
-                            <td>044525593</td>
-                        </tr>
-                        <tr>
-                            <td>К/с</td>
-                            <td>30101810200000000593</td>
-                        </tr>
-                    </table>
-                    
-                    <a href="#" class="download-link">📎 Скачать реквизиты (PDF)</a>
-                </div>
-            </div>
-        </section>
     </main>
 
     <?php require_once 'includes/footer.php'; ?>
 
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        function initMap() {
-            if (typeof ymaps === 'undefined') {
-                console.log('Yandex Maps API не загружен');
-                showFallbackMap();
-                return;
-            }
-            
-            try {
-                ymaps.ready(function() {
-                    const mapElement = document.getElementById('map');
-                    if (!mapElement) return;
-                    
-                    const coordinates = [54.782952, 32.026853];
-                    
-                    const map = new ymaps.Map('map', {
-                        center: coordinates,
-                        zoom: 17,
-                        controls: ['zoomControl', 'fullscreenControl']
-                    });
-                    
-                    const marker = new ymaps.Placemark(coordinates, {
-                        balloonContentHeader: 'Medikator.ru',
-                        balloonContentBody: 'г. Смоленск, 2-я Вяземская улица, д.4',
-                        balloonContentFooter: 'Офис продаж'
-                    }, {
-                        preset: 'islands#redDotIcon',
-                        iconColor: '#f97316'
-                    });
-                    
-                    map.geoObjects.add(marker);
-                    marker.balloon.open();
-                });
-            } catch (error) {
-                console.log('Ошибка при создании карты:', error);
-                showFallbackMap();
-            }
-        }
-
-        function showFallbackMap() {
-            const mapElement = document.getElementById('map');
-            if (mapElement) {
-                mapElement.innerHTML = `
-                    <div style="width:100%;height:100%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:20px;text-align:center;border-radius:12px;">
-                        <div style="font-size:48px;margin-bottom:16px;">📍</div>
-                        <p style="font-size:16px;margin-bottom:10px;color:#1e293b;">г. Смоленск, 2-я Вяземская улица, д.4</p>
-                        <a href="https://yandex.ru/maps/?text=Смоленск,+2-я+Вяземская+улица,+д.4" 
-                           target="_blank" 
-                           style="color:#f97316;text-decoration:underline;">
-                            Посмотреть на Яндекс.Картах
-                        </a>
-                    </div>
-                `;
-            }
+ <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    function initMap() {
+        if (typeof ymaps === 'undefined') {
+            console.log('Yandex Maps API не загружен');
+            showFallbackMap();
+            return;
         }
         
-        setTimeout(initMap, 500);
-    });
-    </script>
+        try {
+            ymaps.ready(function() {
+                const mapElement = document.getElementById('map');
+                if (!mapElement) return;
+                
+                // Координаты Смоленска (ул. 2-я Вяземская, д.4)
+                const smolenskCoords = [54.782952, 32.026853];
+                // Координаты Минска (ул. Толбухина, д.2)
+                const minskCoords = [53.917792, 27.554603];
+                
+                // Центр карты между Смоленском и Минском
+                const centerLat = (smolenskCoords[0] + minskCoords[0]) / 2;
+                const centerLon = (smolenskCoords[1] + minskCoords[1]) / 2;
+                
+                const map = new ymaps.Map('map', {
+                    center: [centerLat, centerLon],
+                    zoom: 7,
+                    controls: ['zoomControl', 'fullscreenControl']
+                });
+                
+                // Маркер Смоленск
+                const smolenskMarker = new ymaps.Placemark(smolenskCoords, {
+                    balloonContentHeader: 'Medikator.ru - Смоленск',
+                    balloonContentBody: 'г. Смоленск, ул. 2-я Вяземская, д.4<br>Представительство<br>Режим работы: Пн-Пт 9:00-18:00',
+                    balloonContentFooter: '📞 <?= htmlspecialchars($siteSettings['contacts']['phone']) ?>'
+                }, {
+                    preset: 'islands#blueDotIcon',
+                    iconColor: '#0066cc'
+                });
+                
+                // Маркер Минск
+                const minskMarker = new ymaps.Placemark(minskCoords, {
+                    balloonContentHeader: 'Medikator.ru - Минск',
+                    balloonContentBody: 'г. Минск, ул. Толбухина, д.2<br>Офис<br>Режим работы: Пн-Пт 9:00-18:00',
+                    balloonContentFooter: '📞 +375 (33) 680-07-07?>'
+                }, {
+                    preset: 'islands#orangeDotIcon',
+                    iconColor: '#f97316'
+                });
+                
+                map.geoObjects.add(smolenskMarker);
+                map.geoObjects.add(minskMarker);
+                
+                // Автоматически подстроить границы карты, чтобы оба маркера были видны
+                const bounds = [
+                    [Math.min(smolenskCoords[0], minskCoords[0]), Math.min(smolenskCoords[1], minskCoords[1])],
+                    [Math.max(smolenskCoords[0], minskCoords[0]), Math.max(smolenskCoords[1], minskCoords[1])]
+                ];
+                map.setBounds(bounds, {
+                    checkZoomRange: true,
+                    zoomMargin: 50
+                });
+            });
+        } catch (error) {
+            console.log('Ошибка при создании карты:', error);
+            showFallbackMap();
+        }
+    }
+
+    function showFallbackMap() {
+        const mapElement = document.getElementById('map');
+        if (mapElement) {
+            mapElement.innerHTML = `
+                <div style="width:100%;height:100%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:20px;text-align:center;border-radius:12px;">
+                    <div style="font-size:48px;margin-bottom:16px;">📍</div>
+                    <p style="font-size:16px;margin-bottom:10px;color:#1e293b;"><strong>Россия, Смоленск:</strong> ул. 2-я Вяземская, д.4</p>
+                    <p style="font-size:16px;margin-bottom:15px;color:#1e293b;"><strong>Беларусь, Минск:</strong> ул. Толбухина, д.2</p>
+                    <a href="https://yandex.ru/maps/?text=Смоленск,+2-я+Вяземская+улица,+д.4" 
+                       target="_blank" 
+                       style="color:#f97316;text-decoration:underline;margin-right:15px;">
+                        Смоленск на карте
+                    </a>
+                    <a href="https://yandex.ru/maps/?text=Минск,+ул.+Толбухина,+д.2" 
+                       target="_blank" 
+                       style="color:#f97316;text-decoration:underline;">
+                        Минск на карте
+                    </a>
+                </div>
+            `;
+        }
+    }
+    
+    setTimeout(initMap, 500);
+});
+</script>
     <script>
         (function(w,d,u){
                 var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);

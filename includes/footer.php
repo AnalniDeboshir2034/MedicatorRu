@@ -13,8 +13,10 @@ $siteSettings = $siteSettings ?? load_site_settings();
                     <h3 class="footer__title">Контакты</h3>
                     <ul class="footer__list">
                         <li>📞 <?= htmlspecialchars($siteSettings['contacts']['phone']) ?></li>
+                        <li>📞 +375 (33) 680-07-07</li>
                         <li>✉️ <?= htmlspecialchars($siteSettings['contacts']['email']) ?></li>
                         <li>📍 <?= htmlspecialchars($siteSettings['contacts']['address']) ?></li>
+                        <li>📍 г. Минск, ул. Толбухина, д.2</li>
                     </ul>
                 </div>
                 <div class="footer__col">
@@ -23,6 +25,8 @@ $siteSettings = $siteSettings ?? load_site_settings();
                         <li><a href="/">Главная</a></li>
                         <li><a href="/catalog">Каталог</a></li>
                         <li><a href="/contacts">Контакты</a></li>
+                        <li><a href="/compare">Сравнение</a></li>
+                        <li><a href="/cart">Корзина</a></li>
                     </ul>
                 </div>
                 <div class="footer__col">

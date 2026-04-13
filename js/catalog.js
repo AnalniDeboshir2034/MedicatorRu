@@ -24,6 +24,22 @@ document.addEventListener('DOMContentLoaded', function() {
         productsCount.textContent = `Найдено: ${visibleProducts.length} товаров`;
     }
     
+    function setActiveCategoryButton(category) {
+        categoryBtns.forEach(btn => {
+            const btnCategory = String(btn.dataset.category || '').trim().toLowerCase();
+            btn.classList.toggle('active', btnCategory === category);
+        });
+    }
+
+    function recalculateActiveSubcategories() {
+        activeSubcategories.clear();
+        filterCheckboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                activeSubcategories.add(String(checkbox.value || '').trim().toLowerCase());
+            }
+        });
+    }
+
     // Функция фильтрации товаров
     function filterProducts() {
         const products = document.querySelectorAll('.product-card');
@@ -38,7 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
             let subcategoryMatch = false;
             let searchMatch = true;
             
-            if (activeCategory === 'all') {
+            // При активных подфильтрах разрешаем пересечение разных категорий.
+            if (activeSubcategories.size > 0 || activeCategory === 'all') {
                 categoryMatch = true;
             } else {
                 categoryMatch = (productCategory === String(activeCategory).trim().toLowerCase());
@@ -82,12 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 
                 // Обновляем активные подкатегории
-                activeSubcategories.clear();
-                filterCheckboxes.forEach(checkbox => {
-                    if (checkbox.checked && checkbox.dataset.category === activeCategory) {
-                        activeSubcategories.add(String(checkbox.value || '').trim().toLowerCase());
-                    }
-                });
+                recalculateActiveSubcategories();
             }
             
             filterProducts();
@@ -97,25 +109,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // Обработчики для чекбоксов подкатегорий
     filterCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function() {
-            const category = this.dataset.category;
-            
-            // Если выбрана конкретная категория, переключаем на нее
-            if (activeCategory !== category && this.checked) {
-                activeCategory = String(category || '').trim().toLowerCase();
-                // Обновляем активный класс кнопок категорий
-                categoryBtns.forEach(btn => {
-                    if (String(btn.dataset.category || '').trim().toLowerCase() === activeCategory) {
-                        btn.classList.add('active');
-                    } else {
-                        btn.classList.remove('active');
-                    }
-                });
-            }
-            
-            if (this.checked) {
-                activeSubcategories.add(String(this.value || '').trim().toLowerCase());
-            } else {
-                activeSubcategories.delete(String(this.value || '').trim().toLowerCase());
+            recalculateActiveSubcategories();
+
+            // Если выбраны подфильтры из нескольких категорий, категория становится "Все".
+            const selectedCategories = new Set();
+            filterCheckboxes.forEach(cb => {
+                if (cb.checked) {
+                    selectedCategories.add(String(cb.dataset.category || '').trim().toLowerCase());
+                }
+            });
+
+            if (selectedCategories.size > 1) {
+                activeCategory = 'all';
+                setActiveCategoryButton('all');
+            } else if (selectedCategories.size === 1) {
+                const [singleCategory] = selectedCategories;
+                activeCategory = singleCategory || 'all';
+                setActiveCategoryButton(activeCategory);
             }
             
             filterProducts();
