@@ -32,13 +32,20 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!rawValue) return '';
         var raw = String(rawValue).trim();
         var digits = '';
+        var isInternationalInput = false;
 
         if (raw.indexOf('+') === 0) {
             digits = raw.slice(1).replace(/\D/g, '');
+            isInternationalInput = true;
+        } else if (raw.indexOf('00') === 0) {
+            digits = raw.slice(2).replace(/\D/g, '');
+            isInternationalInput = true;
         } else {
-            digits = raw.replace(/\D/g, '');
+            // Local entry (e.g. 29...) should not reset user-selected country.
+            return '';
         }
         if (!digits) return '';
+        if (!isInternationalInput || digits.length < 2) return '';
 
         var best = '';
         var bestLen = 0;
@@ -130,12 +137,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         input.addEventListener('input', function () {
             input.value = input.value.replace(/[^0-9+()\-\s]/g, '');
-
-            var trimmed = String(input.value || '').trim();
-            if (trimmed && trimmed.charAt(0) !== '+' && /\d/.test(trimmed.charAt(0))) {
-                input.value = '+' + trimmed;
-            }
-
             input.setCustomValidity('');
 
             // Auto-detect country from typed prefix (+375..., 375..., +7..., etc).
