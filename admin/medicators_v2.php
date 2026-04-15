@@ -100,7 +100,11 @@ function admin_prepare_or_throw($mysqli, $sql)
 
 function admin_table_exists($mysqli, $tableName)
 {
-    $stmt = admin_prepare_or_throw($mysqli, 'SHOW TABLES LIKE ?');
+    $sql = "SELECT 1
+            FROM information_schema.TABLES
+            WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ?
+            LIMIT 1";
+    $stmt = admin_prepare_or_throw($mysqli, $sql);
     $stmt->bind_param('s', $tableName);
     $stmt->execute();
     $res = $stmt->get_result();
@@ -111,8 +115,14 @@ function admin_table_exists($mysqli, $tableName)
 
 function admin_column_exists($mysqli, $tableName, $columnName)
 {
-    $stmt = admin_prepare_or_throw($mysqli, "SHOW COLUMNS FROM `{$tableName}` LIKE ?");
-    $stmt->bind_param('s', $columnName);
+    $sql = "SELECT 1
+            FROM information_schema.COLUMNS
+            WHERE TABLE_SCHEMA = DATABASE()
+              AND TABLE_NAME = ?
+              AND COLUMN_NAME = ?
+            LIMIT 1";
+    $stmt = admin_prepare_or_throw($mysqli, $sql);
+    $stmt->bind_param('ss', $tableName, $columnName);
     $stmt->execute();
     $res = $stmt->get_result();
     $exists = $res && $res->num_rows > 0;
