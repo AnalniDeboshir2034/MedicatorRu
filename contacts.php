@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/products/favico.png">
+    <link rel="icon" href="/products/favicon.svg">
     <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
     <link rel="stylesheet" href="css/style.css?v=<?= time() ?>">
     <link rel="stylesheet" href="css/contacts.css?v=<?= time() ?>">

@@ -8,7 +8,7 @@ $siteSettings = load_site_settings();
     <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/products/favico.png">
+    <link rel="icon" href="/products/favicon.svg">
     <title>Политика обработки персональных данных | Medikator.ru</title>
     <meta name="description" content="Политика обработки персональных данных сайта Medikator.ru">
     <link rel="stylesheet" href="css/style.css">

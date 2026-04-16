@@ -119,7 +119,7 @@ if (empty($popular_products)) {
     <base href="/" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/products/favico.png">
+    <link rel="icon" href="/products/favicon.svg">
     <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/index.css">
