@@ -1,10 +1,14 @@
 <?php 
 require_once 'includes/config.php';
 require_once __DIR__ . '/includes/water_treatment.php';
+require_once __DIR__ . '/includes/seo.php';
 
 if (!$mysqli || $mysqli->connect_error) {
     die("❌ Нет соединения с БД");
 }
+
+$catalogCanonical = seo_canonical_url('/catalog');
+$catalogDescription = 'Каталог медикаторов-дозаторов для животноводства и птицеводства: фильтры по сериям, технические характеристики и быстрый переход в карточки товаров.';
 
 $filters = [];
 $result = $mysqli->query("SELECT * FROM `filter` ORDER BY `id`");
@@ -66,10 +70,16 @@ if (is_array($waterTreatmentProduct)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="yandex-verification" content="94250c2328fa6f0f" />
     <link rel="icon" href="/products/favicon.svg">
-    <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
+    <?php seo_render_meta([
+        'title' => 'Каталог медикаторов-дозаторов | Medikator.ru',
+        'description' => $catalogDescription,
+        'canonical' => $catalogCanonical,
+        'image' => '/products/medikator.jpg',
+    ]); ?>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/catalog.css">
     <script src="js/catalog.js" defer></script>
+    <?php seo_render_organization_jsonld(); ?>
     <script type="text/javascript">
     (function(m,e,t,r,i,k,a){
         m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -186,7 +196,7 @@ if (is_array($waterTreatmentProduct)) {
                                         <?php if (!empty($product['main_img'])): ?>
                                         <a class="product-image" href="/product/<?= rawurlencode($product['slug']) ?>">
                                             <img src="<?= htmlspecialchars($product['main_img']) ?>" 
-                                                 alt="<?= htmlspecialchars($product['name']) ?>">
+                                                 alt="<?= htmlspecialchars(seo_product_image_alt($product, 'Фото товара')) ?>">
                                         </a>
                                         <?php endif; ?>
                                         <h3 class="product-title"><a href="/product/<?= rawurlencode($product['slug']) ?>"><?= htmlspecialchars($product['name']) ?></a></h3>

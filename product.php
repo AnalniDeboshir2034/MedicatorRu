@@ -2,6 +2,7 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/bbcode.php';
 require_once __DIR__ . '/includes/water_treatment.php';
+require_once __DIR__ . '/includes/seo.php';
 
 if (!$mysqli || $mysqli->connect_error) {
     die("❌ Нет соединения с БД");
@@ -41,6 +42,16 @@ if (!$product) {
     header('Location: index.php');
     exit;
 }
+
+$productCanonical = seo_canonical_url('/product/' . rawurlencode((string)$product['slug']));
+$productDescriptionSource = trim(strip_tags((string)($product['opis'] ?? '')));
+if ($productDescriptionSource === '') {
+    $productDescriptionSource = 'Медикатор-дозатор для сельского хозяйства: технические характеристики, описание и консультация по подбору.';
+}
+$productDescription = function_exists('mb_substr')
+    ? mb_substr($productDescriptionSource, 0, 180, 'UTF-8')
+    : substr($productDescriptionSource, 0, 180);
+$productOgImage = (string)($product['main_img'] ?? '/products/medikator.jpg');
 
 $images = [];
 if ($isWaterTreatmentProduct) {
@@ -179,9 +190,57 @@ if (is_array($waterTreatmentProduct) && !$isWaterTreatmentProduct) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/products/favicon.svg">
     <meta name="yandex-verification" content="94250c2328fa6f0f" />
-    <title><?= htmlspecialchars($product['name']) ?> | Medikator.ru</title>
+    <?php seo_render_meta([
+        'title' => (string)$product['name'] . ' | Medikator.ru',
+        'description' => $productDescription,
+        'canonical' => $productCanonical,
+        'image' => $productOgImage,
+        'type' => 'product',
+    ]); ?>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/product.css">
+    <?php seo_render_organization_jsonld(); ?>
+    <script type="application/ld+json">
+        <?= json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'Product',
+            'name' => (string)($product['name'] ?? ''),
+            'description' => $productDescription,
+            'image' => [preg_match('#^https?://#i', $productOgImage) ? $productOgImage : seo_site_base_url() . '/' . ltrim($productOgImage, '/')],
+            'url' => $productCanonical,
+            'sku' => (string)($product['slug'] ?? ''),
+            'brand' => [
+                '@type' => 'Brand',
+                'name' => 'Medikator.ru',
+            ],
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>
+    </script>
+    <script type="application/ld+json">
+        <?= json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                [
+                    '@type' => 'ListItem',
+                    'position' => 1,
+                    'name' => 'Главная',
+                    'item' => seo_site_base_url() . '/',
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 2,
+                    'name' => 'Каталог',
+                    'item' => seo_site_base_url() . '/catalog',
+                ],
+                [
+                    '@type' => 'ListItem',
+                    'position' => 3,
+                    'name' => (string)($product['name'] ?? 'Товар'),
+                    'item' => $productCanonical,
+                ],
+            ],
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>
+    </script>
     <script type="text/javascript">
     (function(m,e,t,r,i,k,a){
         m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -228,7 +287,7 @@ if (is_array($waterTreatmentProduct) && !$isWaterTreatmentProduct) {
                             <div class="gallery-slide" data-index="<?= $index ?>" style="display: <?= $index === 0 ? 'flex' : 'none' ?>;">
                                 <?php if (!empty($img['path_img'])): ?>
                                     <img src="<?= htmlspecialchars($img['path_img']) ?>" 
-                                         alt="<?= htmlspecialchars($product['name']) ?>">
+                                         alt="<?= htmlspecialchars(seo_product_image_alt($product, 'Фото ' . ($index + 1))) ?>">
                                 <?php else: ?>
                                     <div class="no-image-placeholder">
                                         <span>📷</span>
@@ -246,7 +305,7 @@ if (is_array($waterTreatmentProduct) && !$isWaterTreatmentProduct) {
                                 <?php foreach ($images as $index => $img): ?>
                                 <div class="thumb" data-index="<?= $index ?>">
                                     <?php if (!empty($img['path_img'])): ?>
-                                        <img src="<?= htmlspecialchars($img['path_img']) ?>" alt="Миниатюра">
+                                        <img src="<?= htmlspecialchars($img['path_img']) ?>" alt="<?= htmlspecialchars(seo_product_image_alt($product, 'Миниатюра ' . ($index + 1))) ?>">
                                     <?php else: ?>
                                         <div class="thumb-placeholder">📷</div>
                                     <?php endif; ?>
@@ -440,7 +499,7 @@ if (is_array($waterTreatmentProduct) && !$isWaterTreatmentProduct) {
                 <?php foreach ($relatedProducts as $rp): ?>
                     <article class="related-product-card">
                         <div class="related-product-card__image">
-                            <img src="<?= htmlspecialchars($rp['main_img'] ?? 'products/medikator.jpg') ?>" alt="<?= htmlspecialchars($rp['name']) ?>">
+                            <img src="<?= htmlspecialchars($rp['main_img'] ?? 'products/medikator.jpg') ?>" alt="<?= htmlspecialchars(seo_product_image_alt($rp, 'Похожий товар')) ?>">
                         </div>
                         <div class="related-product-card__body">
                             <h3><?= htmlspecialchars($rp['name']) ?></h3>
@@ -464,7 +523,7 @@ if (is_array($waterTreatmentProduct) && !$isWaterTreatmentProduct) {
                 <?php foreach ($relatedProducts as $rp): ?>
                     <article class="related-product-card">
                         <div class="related-product-card__image">
-                            <img src="<?= htmlspecialchars($rp['main_img'] ?? 'products/medikator.jpg') ?>" alt="<?= htmlspecialchars($rp['name']) ?>">
+                            <img src="<?= htmlspecialchars($rp['main_img'] ?? 'products/medikator.jpg') ?>" alt="<?= htmlspecialchars(seo_product_image_alt($rp, 'Рекомендуемый товар')) ?>">
                         </div>
                         <div class="related-product-card__body">
                             <h3><?= htmlspecialchars($rp['name']) ?></h3>
@@ -486,7 +545,7 @@ if (is_array($waterTreatmentProduct) && !$isWaterTreatmentProduct) {
                 <?php foreach ($upsellProducts as $rp): ?>
                     <article class="related-product-card">
                         <div class="related-product-card__image">
-                            <img src="<?= htmlspecialchars($rp['main_img'] ?? 'products/medikator.jpg') ?>" alt="<?= htmlspecialchars($rp['name']) ?>">
+                            <img src="<?= htmlspecialchars($rp['main_img'] ?? 'products/medikator.jpg') ?>" alt="<?= htmlspecialchars(seo_product_image_alt($rp, 'Вместе с этим товаром')) ?>">
                         </div>
                         <div class="related-product-card__body">
                             <h3><?= htmlspecialchars($rp['name']) ?></h3>

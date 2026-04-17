@@ -2,6 +2,7 @@
 require_once __DIR__ . '/includes/config.php';
 require_once __DIR__ . '/includes/site_settings.php';
 require_once __DIR__ . '/includes/water_treatment.php';
+require_once __DIR__ . '/includes/seo.php';
 $siteSettings = load_site_settings();
 
 if (!$mysqli || $mysqli->connect_error) {
@@ -46,7 +47,13 @@ if (is_array($waterTreatmentProduct)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/products/favicon.svg">
-    <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
+    <?php seo_render_meta([
+        'title' => 'Корзина | Medikator.ru',
+        'description' => 'Оформление заказа медикаторов и комплектующих.',
+        'canonical' => seo_canonical_url('/cart'),
+        'robots' => 'noindex,follow',
+        'image' => '/products/icon.png',
+    ]); ?>
     <link rel="stylesheet" href="css/style.css">
     <meta name="yandex-verification" content="94250c2328fa6f0f" />
     <link rel="stylesheet" href="css/cart.css">

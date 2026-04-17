@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/config.php';
+require_once __DIR__ . '/includes/seo.php';
 
 if (!$mysqli || $mysqli->connect_error) {
     die("Нет соединения с БД");
@@ -41,7 +42,13 @@ if ($result && $result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/products/favicon.svg">
     <meta name="yandex-verification" content="94250c2328fa6f0f" />
-    <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
+    <?php seo_render_meta([
+        'title' => 'Сравнение товаров | Medikator.ru',
+        'description' => 'Сравнивайте медикаторы по ключевым характеристикам и выбирайте оптимальную модель.',
+        'canonical' => seo_canonical_url('/compare'),
+        'robots' => 'noindex,follow',
+        'image' => '/products/icon.png',
+    ]); ?>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/compare.css">
     <script type="text/javascript">

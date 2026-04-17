@@ -1,5 +1,6 @@
 <?php
 require_once 'includes/site_settings.php';
+require_once __DIR__ . '/includes/seo.php';
 $siteSettings = load_site_settings();
 $BITRIX_WEBHOOK = 'https://k7s.bitrix24.by/rest/25370/o4k69x5rthf0grzi/crm.lead.add.json';
 
@@ -87,10 +88,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/products/favicon.svg">
-    <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
+    <?php seo_render_meta([
+        'title' => 'Контакты | Medikator.ru',
+        'description' => 'Контакты Medikator.ru: телефоны, e-mail, адреса в России и Беларуси, форма обратной связи и карта проезда.',
+        'canonical' => seo_canonical_url('/contacts'),
+        'image' => '/products/icon.png',
+    ]); ?>
     <link rel="stylesheet" href="css/style.css?v=<?= time() ?>">
     <link rel="stylesheet" href="css/contacts.css?v=<?= time() ?>">
     <meta name="yandex-verification" content="94250c2328fa6f0f" />
+    <?php seo_render_organization_jsonld($siteSettings); ?>
 
     <script type="text/javascript">
     (function(m,e,t,r,i,k,a){

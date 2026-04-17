@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/site_settings.php';
+require_once __DIR__ . '/includes/seo.php';
 $siteSettings = load_site_settings();
 ?>
 <!DOCTYPE html>
@@ -9,8 +10,12 @@ $siteSettings = load_site_settings();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/products/favicon.svg">
-    <title>Политика обработки персональных данных | Medikator.ru</title>
-    <meta name="description" content="Политика обработки персональных данных сайта Medikator.ru">
+    <?php seo_render_meta([
+        'title' => 'Политика обработки персональных данных | Medikator.ru',
+        'description' => 'Политика обработки персональных данных сайта Medikator.ru.',
+        'canonical' => seo_canonical_url('/privacy'),
+        'image' => '/products/icon.png',
+    ]); ?>
     <link rel="stylesheet" href="css/style.css">
     <meta name="yandex-verification" content="94250c2328fa6f0f" />
     <link rel="stylesheet" href="css/privacy.css">

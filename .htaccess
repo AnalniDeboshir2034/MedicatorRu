@@ -23,6 +23,7 @@ Options -MultiViews
     RewriteRule ^compare\.php$ /compare [R=301,L,QSD]
     RewriteRule ^cart\.php$ /cart [R=301,L,QSD]
     RewriteRule ^privacy\.php$ /privacy [R=301,L,QSD]
+    RewriteRule ^sitemap\.php$ /sitemap.xml [R=301,L,QSD]
 
     RewriteRule ^index\.php$ / [R=301,L,QSD]
 
@@ -51,6 +52,7 @@ Options -MultiViews
     RewriteRule ^compare/?$ compare.php [L]
     RewriteRule ^cart/?$ cart.php [L]
     RewriteRule ^privacy/?$ privacy.php [L]
+    RewriteRule ^sitemap\.xml$ sitemap.php [L]
     RewriteRule ^product/([^/]+)/?$ product.php?slug=$1 [L,QSA]
 
     RewriteRule ^admin/?$ admin/index.php [L]

@@ -1,6 +1,7 @@
 <?php 
 require_once 'includes/config.php';
 require_once 'includes/site_settings.php';
+require_once __DIR__ . '/includes/seo.php';
 $siteSettings = load_site_settings();
 
 if (!$mysqli || $mysqli->connect_error) {
@@ -83,6 +84,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     }
 }
 
+$homeCanonical = seo_canonical_url('/');
+$homeDescription = 'Купить медикаторы-дозаторы для сельского хозяйства: подбор под ферму, поставка по России и СНГ, консультация и быстрая доставка.';
+
 $popular_products = [];
 $sql = "SELECT m.*, 
                (SELECT path_img FROM medicator_img WHERE medicator_id = m.id AND is_Main = 1 LIMIT 1) as main_img,
@@ -120,16 +124,19 @@ if (empty($popular_products)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/products/favicon.svg">
-    <title>Medikator.ru - Медикаторы-дозаторы для сельского хозяйства</title>
+    <?php seo_render_meta([
+        'title' => 'Medikator.ru - Медикаторы-дозаторы для сельского хозяйства',
+        'description' => $homeDescription,
+        'canonical' => $homeCanonical,
+        'image' => '/products/medicator.png',
+    ]); ?>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/index.css">
     <meta name="yandex-verification" content="94250c2328fa6f0f" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <script src="js/script.js" defer></script>
-    <style>
-       
-    </style>
+    <?php seo_render_organization_jsonld($siteSettings); ?>
 </head>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -193,7 +200,7 @@ if (empty($popular_products)) {
                 </div>
             </div>
             <div class="hero-products__image">
-                <img src="products/medicator.png" alt="Медикаторы для хозяйств">
+                <img src="products/medicator.png" alt="Медикаторы для хозяйств,для птицеводства, для животноводства, для автомоечных">
             </div>
         </div>
     </div>
@@ -238,7 +245,7 @@ if (empty($popular_products)) {
 <section class="advantages">
     <div class="container">
         <div class="advantages__head">
-            <h1 class="section-title">ПОЧЕМУ ВЫБИРАЮТ <br> <span class="gradient-text">НАШИ ДОЗАТОРЫ</span></h1>
+            <h2 class="section-title">ПОЧЕМУ ВЫБИРАЮТ <br> <span class="gradient-text">НАШИ ДОЗАТОРЫ</span></h2>
             <a href="#" class="advantages-calc-btn open-modal-form" data-form="advantages">Получить расчет <span>→</span></a>
         </div>
         
@@ -353,7 +360,7 @@ if (empty($popular_products)) {
                         <?php endif; ?>
                         <a class="product-card__image" href="/product/<?= rawurlencode($product['slug']) ?>">
                             <img src="<?= htmlspecialchars($product['main_img'] ?? 'products/medikator.jpg') ?>" 
-                                 alt="<?= htmlspecialchars($product['name']) ?>">
+                                 alt="<?= htmlspecialchars(seo_product_image_alt($product, 'Медикатор')) ?>">
                         </a>
                         <div class="product-card__content">
                             <h3 class="product-card__title"><a href="/product/<?= rawurlencode($product['slug']) ?>"><?= htmlspecialchars($product['name']) ?></a></h3>
